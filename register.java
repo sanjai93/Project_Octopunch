@@ -37,6 +37,7 @@ public class register{
      * 
      * @return true si meme registre, false sinon
      */
+    @Override
     public boolean equals(Object o){
         if(!(o instanceof register)){
             return false;

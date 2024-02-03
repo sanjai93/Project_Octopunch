@@ -1,3 +1,4 @@
+import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,16 @@ public class PrimarRegister {
         return this.listeRegister;
     }
 
-
+    public register getRegister(String A){
+        if(this.contains(A)){
+            for(register my : listeRegister){
+                if (my.getLetter().equals(A)){
+                    return my;
+                }
+            }
+        }
+        return null;
+    }
      /**
      * Contains vérifie si le STRING ou le registre.getLetter insérer est bien l'un des registes "Primaire"
      * 
