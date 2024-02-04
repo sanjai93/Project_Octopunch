@@ -244,6 +244,9 @@ public class line{
         return this.legal;
     }
 
+    public void setLegal(boolean legal) {
+        this.legal = legal;
+    }
 
     /**
      * Renvoie simplement l'instruction qui a servit à construire cette ligne.(en MAJ car le jeux fait tout en MAJ)

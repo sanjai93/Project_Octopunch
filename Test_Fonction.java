@@ -1,4 +1,4 @@
-public class TestLineOneA {
+public class Test_Fonction {
     private String instruction;
     private boolean legal;
 
@@ -6,7 +6,7 @@ public class TestLineOneA {
         boolean One = false;
         boolean Two = false;
         boolean Three = false;
-        String instru = "   link  -5";
+        String instru = "   link  -5";//<----------ici pour tester
         int i,j;
         XA robot = new XA();
         robot.addline("Copy 12 x");

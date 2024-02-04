@@ -8,6 +8,10 @@ public class XA{
     private int nextIndex;
     private int lastIndex;
     private int previousIndex;
+    private folder fichier = new folder();
+
+
+
 
 
     /**
@@ -20,6 +24,12 @@ public class XA{
     public boolean addline(String LINE){
 
         return RobotBOX.add(new line(LINE,this));
+    }
+    public boolean HaveThisFolder(folder F){
+        return F.getID()== fichier.getID()&& F.getContenu()== fichier.getContenu();
+    }
+    public folder getFichier(){
+        return this.fichier;
     }
 
     public void JUMP(int A){
@@ -133,7 +143,9 @@ public class XA{
 
         C.Set(valA*valB);
     }
-
+    public int LINK(int N){
+        return N;
+    }
 
     public boolean  executable() {
         if (RobotBOX.isEmpty()) {
@@ -154,6 +166,8 @@ public class XA{
         line L = RobotBOX.get(nextIndex());
         String[] argum = L.ToSrting().split("\\s+");// "mange" les espaces : "cacao au lait"=> argum[0]=cacao; argum[1]=au;etc
         switch (argum[0]) {
+            case "LINK":
+                LINK(Integer.parseInt(argum[1]));
             case "JUMP":
                 JUMP(Integer.parseInt(argum[1]));
             case "FJMP":
