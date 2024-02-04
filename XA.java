@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 public class XA{
     ArrayList<line> RobotBOX = new ArrayList<>();
-    PrimarRegister Register;
+    PrimarRegister Register= new PrimarRegister();
     private int nextIndex;
     private int lastIndex;
     private int previousIndex;
@@ -19,7 +19,7 @@ public class XA{
 
     public boolean addline(String LINE){
 
-        return RobotBOX.add(new line(LINE));
+        return RobotBOX.add(new line(LINE,this));
     }
 
     public void JUMP(int A){
@@ -38,7 +38,7 @@ public class XA{
 
     public void FJMP(int A) {
         int A1 = A;
-        if (Register.getRegister("T").getValue() == 0) {
+
             while (A1 != 0) {
                 if (A1 > 0) {
                     next();
@@ -49,7 +49,6 @@ public class XA{
                     A1++;
                 }
             }
-        }
     }
 
     //les méthodes qui suivent ne peuvent pas etre lancées si line n'est pas true donc inutile de faire trop de vérification ici
@@ -136,6 +135,43 @@ public class XA{
     }
 
 
+    public boolean  executable() {
+        if (RobotBOX.isEmpty()) {
+            return false;
+        }
+        for (line L : RobotBOX) {
+            if (!L.Legal()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean execute() {
+        if (!executable()) {
+            return false;
+        }
+        line L = RobotBOX.get(nextIndex());
+        String[] argum = L.ToSrting().split("\\s+");// "mange" les espaces : "cacao au lait"=> argum[0]=cacao; argum[1]=au;etc
+        switch (argum[0]) {
+            case "JUMP":
+                JUMP(Integer.parseInt(argum[1]));
+            case "FJMP":
+                FJMP(Integer.parseInt(argum[1]));
+            case "COPY":
+                COPY(argum[1], Register.getRegister(argum[2]));
+
+            case "ADDI":
+                ADDI(argum[1], argum[2], Register.getRegister(argum[3]));
+            case "MULI":
+                MULI(argum[1], argum[2], Register.getRegister(argum[3]));
+            case "SUBI":
+                SUBI(argum[1], argum[2], Register.getRegister(argum[3]));
+
+        }
+        return true;
+    }
+
     public ArrayList<line> getRobotBOX() {
         return RobotBOX;
     }
@@ -143,6 +179,8 @@ public class XA{
     public PrimarRegister getRegister() {
         return Register;
     }
+
+
 
     public void startIteration() {
         if(!hasPrevious()){
@@ -155,10 +193,7 @@ public class XA{
 
 
     public boolean hasNext() {
-        if(this.nextIndex< RobotBOX.size()){
-            return true;
-        }
-        return false;
+        return this.nextIndex < RobotBOX.size();
     }
 
     public line next() {
@@ -179,7 +214,7 @@ public class XA{
         return RobotBOX.get(nextIndex());
     }
 
-    private int nextIndex() {
+    public int nextIndex() {
         return hasNext() ? nextIndex : getRobotBOX().size();
     }
 
