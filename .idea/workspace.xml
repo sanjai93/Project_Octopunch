@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2a6bec99-be6e-4adb-a965-e916d7307dca" name="Changes" comment="creation de class 2">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/plop.c" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/fichier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +17,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -59,9 +61,14 @@
     &quot;git-widget-placeholder&quot;: &quot;Test__PULL&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/ramalingame/IdeaProjects/Project_Octopunch/Project_Octopunch&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -84,6 +91,18 @@
       <workItem from="1706291700445" duration="274000" />
       <workItem from="1706299933031" duration="201000" />
       <workItem from="1706300801004" duration="42000" />
+      <workItem from="1706300849097" duration="526000" />
+      <workItem from="1706301381529" duration="224000" />
+      <workItem from="1706301616915" duration="47000" />
+      <workItem from="1706301666039" duration="146000" />
+      <workItem from="1706455735086" duration="33000" />
+      <workItem from="1706699631702" duration="575000" />
+      <workItem from="1706700389401" duration="277000" />
+      <workItem from="1706701128262" duration="384000" />
+      <workItem from="1706701517221" duration="666000" />
+      <workItem from="1707130824499" duration="234000" />
+      <workItem from="1707131958235" duration="10000" />
+      <workItem from="1707138827041" duration="197000" />
     </task>
     <task id="LOCAL-00001" summary="premier commit">
       <option name="closed" value="true" />
@@ -109,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706290087824</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="creation de class 2">
+      <option name="closed" value="true" />
+      <created>1706301024492</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706301024492</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,7 +153,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="HEAD" />
+                        <option value="origin/Sanjai" />
                       </list>
                     </value>
                   </entry>
