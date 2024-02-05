@@ -1,3 +1,3 @@
 public absract class fichier {
-
+    /* */
 }
