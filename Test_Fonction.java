@@ -8,6 +8,7 @@ public class Test_Fonction {
         boolean Three = false;
         String instru = "   link  -5";//<----------ici pour tester
         int i,j;
+
         XA robot = new XA();
         robot.addline("Copy 12 x");
 
