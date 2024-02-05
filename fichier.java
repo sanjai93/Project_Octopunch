@@ -1,0 +1,3 @@
+public absract class fichier {
+
+}
