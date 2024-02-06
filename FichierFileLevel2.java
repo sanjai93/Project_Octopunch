@@ -3,7 +3,7 @@ import java.until.Queue;
 
 import javax.lang.model.element.QualifiedNameable;
 
-public class file<E> extends fichier{
+public class file<E> extends fichier {
     private java.util.Queue<Integer> file;
 
     public file(){
@@ -15,10 +15,10 @@ public class file<E> extends fichier{
     }
 
     public boolean add(E item){
-        return file.
+        return file.add(item);
     }
 
-    public Queue<Integer> pool(){
+    public Queue<Integer> poll(){
         return file.poll();
     }
 
