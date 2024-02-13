@@ -1,6 +1,7 @@
-import java.util.ArrayDeque;
+/**import java.util.ArrayDeque;
 import java.util.EmptyStackException;
-import java.until.Deque;
+import java.util.Deque;
+import java.util.Vector;
 
 public class pile<E> extends Vector<E> , fichier {
 
@@ -40,4 +41,4 @@ public class pile<E> extends Vector<E> , fichier {
         return pile.isEmpty();
     }
 
-}
+} **/

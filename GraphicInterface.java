@@ -21,9 +21,7 @@ public class GraphicInterface {
         frame.add(robotTabs, BorderLayout.WEST);
 
         // Zone de jeu
-        JPanel gamePanel = new JPanel();
-        // TODO: Ajoutez la logique de la zone de jeu
-        gamePanel.setPreferredSize(new Dimension(600, 600));
+        GamePanel gamePanel = new GamePanel();
         frame.add(gamePanel, BorderLayout.CENTER);
 
         // Panneau pour les boutons
@@ -34,19 +32,21 @@ public class GraphicInterface {
         stepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Obtenez la zone de texte actuelle
                 JTextArea currentCodeArea = (JTextArea) ((JScrollPane) robotTabs.getSelectedComponent()).getViewport().getView();
                 executeNextInstruction(currentCodeArea);
+                if (robotTabs.getSelectedIndex() == 0) { // Vérifie si le Robot 1 est sélectionné
+                    gamePanel.setShouldDisplaySpider(true);
+                }
             }
         });
 
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextArea currentCodeArea = (JTextArea) ((JScrollPane) robotTabs.getSelectedComponent()).getViewport().getView();
-                resetRobot(currentCodeArea);
+                gamePanel.setShouldDisplaySpider(false); // Fait disparaître l'araignée
             }
         });
+
 
         buttonPanel.add(stepButton);
         buttonPanel.add(stopButton);
@@ -68,4 +68,32 @@ public class GraphicInterface {
         currentLine = 0;
         // TODO: Ajoutez toute autre logique de réinitialisation nécessaire
     }
+
+    static class GamePanel extends JPanel {
+        private boolean shouldDisplaySpider = false;
+
+        public void setShouldDisplaySpider(boolean shouldDisplaySpider) {
+            this.shouldDisplaySpider = shouldDisplaySpider;
+            repaint();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (shouldDisplaySpider) {
+                // Dessiner le corps de l'araignée
+                g.setColor(Color.BLACK);
+                g.fillOval(150, 100, 40, 40); // Céphalothorax
+                g.fillOval(140, 140, 60, 60); // Abdomen
+
+                // Dessiner les pattes de l'araignée
+                g.drawLine(150, 120, 100, 90); // Pattes à gauche
+                g.drawLine(150, 120, 100, 150);
+                g.drawLine(190, 120, 240, 90); // Pattes à droite
+                g.drawLine(190, 120, 240, 150);
+            }
+        }
+    }
+
+
 }

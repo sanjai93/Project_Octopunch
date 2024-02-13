@@ -1,5 +1,5 @@
-import java.until.LinkedList;
-import java.until.Queue;
+/**import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.lang.model.element.QualifiedNameable;
 
@@ -38,4 +38,4 @@ public class file<E> extends fichier {
         return file.isEmpty();
     }
 
-}
+} **/
