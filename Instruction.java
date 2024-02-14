@@ -29,8 +29,14 @@ public class Instruction {
         String ligne;
         
         while (!(ligne = scan.nextLine()).equalsIgnoreCase("HALT")) {
-             
-            // pour l'instant j'ai mis HALT pour arreter le while (a changer car HALT est une commande en soi)
+        // pour l'instant j'ai mis HALT pour arreter le while (a changer car HALT est une commande en soi)
+
+        switch(ligne){
+
+            case "LINK" :
+
+                System.out.println("ok bg ");
+        }
             
             String[] instru = ligne.toUpperCase().trim().split("\\s+", 2);
             String nomcommande = instru[0];
