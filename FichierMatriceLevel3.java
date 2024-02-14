@@ -1,32 +1,40 @@
-public class matrice extends fichier{
-    private int [][] matrice;
+public class matrice {
+    private String[][] matrice;
     private int lignes;
     private int colonnes;
-    public matrice (int ligne, int colonne){
-        this.lignes = ligne;
-        this.colonnes = colonne;
-        matrice = new int[ligne][colonne];
-    }
-    public int[][] getMatrice() {
-        return matrice;
+
+    public matrice(int lignes, int colonnes) {
+        this.lignes = lignes;
+        this.colonnes = colonnes;
+        matrice = new String[lignes][colonnes];
     }
 
-    // retourne l'élément dune case particulière //
-    public int getElement(int i, int j){
+    // retourne l'élément d'une case particulière
+    public String getElement(int i, int j) {
         return matrice[i][j];
     }
 
-    // Defini un élément de la matrice //
-    public void defElement(int i, int j, int valeur){
+    // Définit un élément de la matrice
+    public void defElement(int i, int j, String valeur) {
         matrice[i][j] = valeur;
     }
 
     public void afficher() {
         for (int i = 0; i < lignes; i++) {
             for (int j = 0; j < colonnes; j++) {
-                System.out.print(elements[i][j] + " ");
+                System.out.print(matrice[i][j] + " ");
             }
             System.out.println();
         }
+    }
+
+    public static void main(String[] args) {
+        matrice mat = new matrice(3, 3);
+        for (int i = 0; i < mat.lignes; i++) {
+            for (int j = 0; j < mat.colonnes; j++) {
+                mat.defElement(i, j, "*"); // Note: "a" should be enclosed in quotes
+            }
+        }
+        mat.afficher();
     }
 }
