@@ -7,6 +7,21 @@ public class matrice {
         this.lignes = lignes;
         this.colonnes = colonnes;
         matrice = new String[lignes][colonnes];
+
+        for (int i = 0; i < this.lignes; i++) {
+            for (int j = 0; j < this.colonnes; j++) {
+                    this.defElement(i, j, "*");
+            }
+        }
+           
+    }
+
+    public int getLignes(){
+        return lignes;
+    }
+
+    public int getColonnes(){
+        return colonnes;
     }
 
     // retourne l'élément d'une case particulière
@@ -28,13 +43,12 @@ public class matrice {
         }
     }
 
+    
+
     public static void main(String[] args) {
-        matrice mat = new matrice(3, 3);
-        for (int i = 0; i < mat.lignes; i++) {
-            for (int j = 0; j < mat.colonnes; j++) {
-                mat.defElement(i, j, "*"); // Note: "a" should be enclosed in quotes
-            }
-        }
+        matrice mat = new matrice(5, 5);
+
         mat.afficher();
+        
     }
 }
