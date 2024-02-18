@@ -34,6 +34,12 @@ public class matrice {
         matrice[i][j] = valeur;
     }
 
+    public void permutElem(int i, int j, int k, int l){
+        String tmp=getElement(i,j);
+        defElement(i, j, getElement(k, l) );
+        defElement(k, l, tmp);
+    }
+
     public void afficher() {
         for (int i = 0; i < lignes; i++) {
             for (int j = 0; j < colonnes; j++) {
@@ -47,6 +53,10 @@ public class matrice {
 
     public static void main(String[] args) {
         matrice mat = new matrice(5, 5);
+        mat.defElement(0, 0, "x");
+        mat.defElement(0,4,"P");
+        mat.defElement(3,3 , "P");
+        mat.defElement(4,4,"F");
 
         mat.afficher();
         
