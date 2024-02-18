@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import line.java;
 
 public class Instruction {
     
@@ -19,46 +20,131 @@ public class Instruction {
     public List<String> getArguments() {
         return arguments;
     }
+    
+    
+    
+    
     public static void main(String[] args) {
         
         Scanner scan = new Scanner(System.in);
 
-        // Liste pour stocker les instructions
-        List<Instruction> instructions = new ArrayList<>();
-
-        String ligne;
-        
-        while (!(ligne = scan.nextLine()).equalsIgnoreCase("HALT")) {
-        // pour l'instant j'ai mis HALT pour arreter le while (a changer car HALT est une commande en soi)
-
-        switch(ligne){
-
-            case "LINK" :
-
-                System.out.println("ok bg ");
-        }
-            
-            String[] instru = ligne.toUpperCase().trim().split("\\s+", 2);
-            String nomcommande = instru[0];
-            List<String> arguments = new ArrayList<>();
-            if (instru.length > 1) {
-                String[] arg = instru[1].split(" ");
-                for (String a : arg) {
-                    arguments.add(a.trim());
-                }
-            }
-            
-            // Ajouter à la liste
-            Instruction instruction = new Instruction(nomcommande, arguments);
-            instructions.add(instruction);
-        }
-
-        // Affichage 
-       for (Instruction instruction : instructions) {
-            
-           System.out.println(instruction.getName() + ", Arguments : " + instruction.getArguments());
-        }
-
+        String ligne= scan.nextLine();
         scan.close();
+
+        boolean legal=false;
+        int i;
+    
+
+        String[] instru = ligne.toUpperCase().trim().split("\\s+", 2);
+
+        switch(instru[0]){
+
+                case "LINK" :
+                
+                if (instru.length == 2) {
+
+                    legal=true;
+
+                    if (instru[1].charAt(0) == '-') {
+
+                        if (!(instru[1].length() > 1) )
+                        {
+                            legal=false;
+                        }
+                        else{
+                            
+                            for (i = 0; i < instru[1].length(); i++) {
+                                if (!Character.isDigit(instru[1].charAt(i)))
+                                {
+                                    legal = false;
+                                }
+                            }
+                        }
+                }
+                if(legal==false){
+                    System.out.println("Erreur instruction");
+                }
+        }
+        else{
+        System.err.println("Erreur instruction");
+        }
+                        break;
+
+                
+                
+                
+                
+                
+                
+                case "GRAB" :
+
+                if (instru.length == 2) {
+                    String[] arg = instru[1].split(" ");
+                    System.out.println("grab");
+            }
+                break;
+
+                case "JUMP" :
+
+                if (instru.length == 2) {
+                    String[] arg = instru[1].split(" ");
+                    System.out.println("jump ");
+            }
+                break;
+
+                case "FJUMP" :
+
+                if (instru.length == 2) {
+                    String[] arg = instru[1].split(" ");
+                    System.out.println("fjump ");
+            }
+                break;
+
+                case "COPY" :
+
+                if (instru.length == 3) {
+                    String[] arg = instru[1].split(" ");
+                    System.out.println("copy");
+            }
+                break;
+
+                case "ADDI" :
+
+                if (instru.length == 4) {
+                    String[] arg = instru[1].split(" ");
+                    System.out.println("addi ");
+            }
+                break;
+
+                case "MULTI" :
+                
+                if (instru.length == 4) {
+                    String[] arg = instru[1].split(" ");
+                    System.out.println("multi");
+            }
+                break;
+
+                case "SUBI" :
+
+                if (instru.length == 4) {
+                    String[] arg = instru[1].split(" ");
+                    System.out.println("subi");
+
+                    break;
+            }
+                
+                
+            
+            default : System.err.println("Erreur instruction");
+                
+                
+        }
+    
+        
+    
+    
+    
     }
+
+
 }
