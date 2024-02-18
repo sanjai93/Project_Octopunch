@@ -2,7 +2,7 @@ import java.util.ArrayDeque;
 import java.util.EmptyStackException;
 import java.util.Deque;
 
-public class pile<E> extends Vector<E> , fichier {
+public class pile<E> extends Vector<E>{
 
     private java.util.Deque<Integer> pile;
 
