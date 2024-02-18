@@ -3,7 +3,7 @@ import java.util.Queue;
 
 import javax.lang.model.element.QualifiedNameable;
 
-public class file<E> extends fichier {
+public class file<E>{
     private java.util.Queue<Integer> file;
 
     public file(){
