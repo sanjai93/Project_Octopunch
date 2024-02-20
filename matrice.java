@@ -43,6 +43,23 @@ public class matrice {
         }
     }
 
+    public boolean parcour(String N){
+        int i,j;
+        for(i=0;i<getLignes();i++ ){
+            for(j=0;j<getColonnes();j++){
+                if(N.equals(matrice[i][j])){
+                    return true;
+                    
+                }
+            }
+        }
+        return false;
+    }
+
+    public void permutElem(int i, int j, int k, int l){
+        defElement(i, j,"*");
+        defElement(k, l, "x");
+    }
     
 
     public static void main(String[] args) {
