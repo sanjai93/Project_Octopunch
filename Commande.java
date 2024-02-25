@@ -54,7 +54,7 @@ public class Commande{
         if (LINE.Legal()){
            
             switch (instru[0]) {
-                case "LINK": case "GRAB" :
+                case "LINK": case "GRAB" : case "JUMP" : case "FJMP":
                            
                     aux.add(instru[1]);
                     

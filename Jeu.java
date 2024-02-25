@@ -10,22 +10,17 @@ public static void main (String [] args){
 
         PrimarRegister register = new PrimarRegister();
         ArrayList<Commande> listeInstruction = new ArrayList<>();
-       
+        int fichierL1=123;
+        boolean HaveF1 =false;
 
 
          
         // Matrices pour le niveau 1 //
-        matrice matLevel11 = new matrice(5, 5);
-        matLevel11.defElement(0, 0, "R");
-        matLevel11.defElement(4,4,"P");
+        matrice matLevel11;
 
-        matrice matLevel12 = new matrice (5,5);
-        matLevel12.defElement(4,0,"P");
-        matLevel12.defElement(4,4,"F");
+        matrice matLevel12;
 
-        matrice matLevel13 = new matrice (5,5);
-        matLevel13.defElement(1,1,"P");
-
+        matrice matLevel13;
 
         // Matrices pour le niveau 2 //
         matrice matLevel21 = new matrice(5, 5);
@@ -54,150 +49,242 @@ public static void main (String [] args){
         
         @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
-        boolean victoire = false;
         Scanner scan  = new Scanner(System.in); 
-        Commande commande;
+        Scanner nextLine = new Scanner(System.in); //Scanne la touche entrer a chaque parcours de la liste d'instruction
+        Scanner Choix = new Scanner(System.in);
 
-        while(!victoire){
-                System.out.println("Choose game Level\n Level 1\n Level 2\n Level 3\n");
-                int level = scanner.nextInt();
-                ArrayList<Commande> Instru;
+
+        boolean victoire = false; //Représente la condition de victoire
+        boolean quit2=false; //Represente la condition de répétition de niveau
+        boolean quit1=false;// Represente la condition de fermeture du jeux
+        Commande commande;
+        Commande instruction;
+        String level;
+        String quitORtry;
+        String nomInstruction ;
+        ListIterator<Commande> iterator;
+        int arg;
+        int i,position;
+        
+
+
+        while(!quit1){
+                System.out.println();
+                System.out.println("Choose game Level or quit with q \n Level 1\n Level 2\n Level 3\n");
+                level = scanner.nextLine();
                 
                 // choix du niveau //
                 switch(level){
                         
-                        case 1: 
-                        System.out.println("Ca commence !\n");
-                        
-                        // Tant que l'utilisateur ne réussi pas à résoudre le niveau //
-                        do {
-                                matLevel11.afficher();
-                                System.out.println("\nLINK 500");
-                                matLevel12.afficher();
-                                System.out.println("\nLINK 400");
-                                matLevel13.afficher();
-                                System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                                 " M=" + register.getRegister("M").getValue()+"\nCalcul le double du fichier dans le registre T");
-                                
-                                // Stockage des Commandes et argument de l'utilisateur dans un tableau jusqu'a que Halt soit entrée //
+                        case "1":
                                 do{
-                                        
+                                        //Création du niveau 1
+                                        matLevel11 = new matrice(5, 5);
+                                        matLevel11.defElement(0, 0, "R");
+                                        matLevel11.defElement(4,4,"P");
 
+                                        matLevel12 = new matrice (5,5);
+                                        matLevel12.defElement(4,0,"P");
+                                        matLevel12.defElement(4,4,"F(5)");
+
+                                        matLevel13 = new matrice (5,5);
+                                        matLevel13.defElement(1,1,"P");
+
+                                        register.getRegister("X").Set(0);
+                                        register.getRegister("F").Set(0);
+                                        register.getRegister("T").Set(0);
+                                        register.getRegister("M").Set(0);
+
+                                        HaveF1=false;
+
+                                        System.out.println("Ca commence !\n");
                                         
+                                        //affichage de matrice
+                                        matLevel11.afficher();
+                                        System.out.println("\nLINK 500");
+                                        matLevel12.afficher();
+                                        System.out.println("\nLINK 400");
+                                        matLevel13.afficher();
+                                        if(!HaveF1){
+                                                System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
+                                                " M=" + register.getRegister("M").getValue()+" FOLDER:NONE"+"\nCalcul le double du fichier dans le registre T");
+                                        }
+                                        else{
+                                                System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
+                                                " M=" + register.getRegister("M").getValue()+" FOLDER:"+fichierL1+"\nCalcul le double du fichier dans le registre T");
+                                        }
+                                
                                         
-                                        commande=Commande.create();
-                                        listeInstruction.add(commande);
-                
-                                        if(commande.getName().equals("HALT")){//Si jamais on tombe sur HALT vérifions si tout le monde est OK
-                                                for(Commande e : listeInstruction){
-                                                        if(!e.getLegal()){
-                                                                System.out.println("L'une des lignes rentrée est incorrect");
-                                                                listeInstruction.removeAll(listeInstruction);// On efface tout, pour l'instant..
-                                                               
+                                        // Stockage des Commandes et argument de l'utilisateur dans un tableau jusqu'a que Halt soit entrée //
+                                        do{
+                                                
+
+                                                
+                                                
+                                                commande=Commande.create();
+                                                listeInstruction.add(commande);
+                        
+                                                if(commande.getName().equals("HALT")){//Si jamais on tombe sur HALT vérifions si tout le monde est OK
+                                                        for(Commande e : listeInstruction){
+                                                                if(!e.getLegal()){
+                                                                        System.out.println("L'une des lignes rentrée est incorrect \n");
+                                                                        listeInstruction.removeAll(listeInstruction);// On efface tout, pour l'instant..
+                                                                
+                                                                        break;
+                                                        
+                                                                }
+                                                        }
+                                                }
+
+                                        }while (!(( commande.getName().equals("HALT")) && (listeInstruction.size()>1))  );//Tu sors pas tant que tu as halt + une taille>1
+
+                                        /*  Lecture des commandes 
+                                        L'utilisation d'un Iterateur serait plus convenable
+                                        notamment pour le cas des Jump et Fjump
+                                        ou on va utiliser l'iterateur pour directement sauter des Instructions 
+                                        */
+                                        iterator = listeInstruction.listIterator();
+                                        position=0;//Pour savoir ou sommes nous dans la liste
+                                        while (iterator.hasNext()) {
+                                                instruction = iterator.next(); 
+                                                nomInstruction = instruction.getName();
+                                                System.out.println();
+                                                
+
+
+                                                
+
+
+
+                                                switch ( nomInstruction ) {
+                                                        // Traitement des commandes //
+                                                        case "LINK" :
+                                                                arg = Integer.parseInt(instruction.getArguments().get(0));
+                                                                
+                                                                /* Cas unique s'appliquant seulement pour le niveau 1 
+                                                                par rapport au remplissage de la matrice */
+                                                                if (arg == 500 && matLevel11.parcour("R")){
+                                                                        matLevel11.defElement(0, 0,"*");
+                                                                        matLevel12.defElement(4, 1,"R");
+                                                                }
+
+                                                                if(arg == 400 && matLevel12.parcour("R")){
+                                                                        matLevel12.defElement(4,1,"*");
+                                                                        matLevel13.defElement(1,2,"R");
+                                                                }
+                                                                break;
+                                                        
+                                                        case "GRAB" :
+                                                                arg = Integer.parseInt(instruction.getArguments().get(0));
+                                                                //Si le robot est dans la matrice + argument rentré est bine celui du fichier + Tu n'a pas de fichier 
+                                                                if ( matLevel12.parcour("R") && arg == 5 && !HaveF1){
+                                                                        
+                                                                        HaveF1=true; //Tu à maintenant un fichier
+                                                                        register.getRegister("M").Set(fichierL1);//M prend la valeur à l'interieur du fichier
+                                                                        matLevel12.defElement(4,1,"*");
+                                                                        matLevel12.defElement(4,3,"R"); 
+                                                                }
                                                                 break;
                                                 
+                                                        case "ADDI":
+                                                                ADDI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)),register) ;
+                                                                break;
+                                                        case "MULI" : 
+                                                                MULI(instruction.getArguments().get(0),instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)),register);
+                                                                break;
+                                                        case "SUBI" : 
+                                                                SUBI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)),register);
+                                                                break;
+                                                        case "JUMP" : 
+                                                                int nombreInstructionsASauter = Integer.parseInt(instruction.getArguments().get(0));
+                                                                for (i = 0; i < nombreInstructionsASauter && position<listeInstruction.size()-2 && iterator.hasNext() ; i++) {   
+                                                                        iterator.next(); // Passez à l'instruction suivante
+                                                                        position++;
+                                                                }
+                                                                 // Sort de la boucle si nous avons atteint la fin de la liste
+                                                                break;
+
+                                                        case "FJMP" : 
+                                                        int cond = register.getRegister("T").getValue();
+                                                        
+                                                        if(cond == 0){ 
+                                                                int nombreInstructionsASauter_BIS = Integer.parseInt(instruction.getArguments().get(0));
+
+                                                                for ( i = 0; i < nombreInstructionsASauter_BIS && position<listeInstruction.size()-2; i++) {   
+                                                                        if (iterator.hasNext()) {
+                                                                        iterator.next(); // Passez à l'instruction suivante
+                                                                        position++;
+                                                                        } else {
+                                                                                break; // Sort de la boucle si nous avons atteint la fin de la liste
+                                                                        }
+                                                                }
                                                         }
+                                                        
+                                                        break;
+
+                
+                                                        case "HALT" :
+                                                                int value = register.getRegister("T").getValue();
+                                                                if(value == 900){
+                                                                        victoire = true;
+                                                                }
+                                                                break;
+
+
+                                                                
+                                                                
+                
+                                                        case "COPY" : 
+                                                        COPY(instruction.getArguments().get(0), register.getRegister(instruction.getArguments().get(1)), register);
+                                                                
+                                                
                                                 }
+                                                //affichage de la matrice apres l'instruction
+                                                matLevel11.afficher();
+                                                System.out.println("\nLINK 500");
+                                                matLevel12.afficher();
+                                                System.out.println("\nLINK 400");
+                                                matLevel13.afficher();
+                                                if(!HaveF1){
+                                                        System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
+                                                        " M=" + register.getRegister("M").getValue()+" FOLDER:NONE"+"\nCalcul le double du fichier dans le registre T");
+                                                }
+                                                else{
+                                                        System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
+                                                        " M=" + register.getRegister("M").getValue()+" FOLDER:"+fichierL1+"\nCalcul le double du fichier dans le registre T");
+                                                }
+
+
+                                                System.out.println();
+
+                                                System.out.println("___" +instruction.getName() + instruction.affichArgum()+"___"); //La ligne qui a provoqué les changements
+                                                System.out.println("Appuyez sur Entrée pour passer à l'instruction suivante.");
+                                                position++;
+                                                nextLine.nextLine();
                                         }
 
-                                }while (!(( commande.getName().equals("HALT")) && (listeInstruction.size()>1))  );//Tu sors pas tant que tu as halt + une taille>1
-
-                                /*  Lecture des commandes 
-                                    L'utilisation d'un Iterateur serait plus convenable
-                                     notamment pour le cas des Jump et Fjump
-                                     ou on va utiliser l'iterateur pour directement sauter des Instructions 
-                                */
-                                ListIterator<Commande> iterator = listeInstruction.listIterator();
-                                while (iterator.hasNext()) {
-                                        Commande instruction = iterator.next(); 
-                                        String nomInstruction = instruction.getName();
+                                        listeInstruction.removeAll(listeInstruction);//Remis à vide car la partie est terminée
+                                        if(victoire){
+                                                System.out.println("Bien joué");
                                         
-                                        switch ( nomInstruction ) {
-                                                // Traitement des commandes //
-                                                case "LINK" :
-                                                        int arg = Integer.parseInt(instruction.getArguments().get(0));
-                                                        
-                                                        /* Cas unique s'appliquant seulement pour le niveau 1 
-                                                        par rapport au remplissage de la matrice */
-                                                        if (arg == 500 && matLevel11.parcour("R")){
-                                                                matLevel11.defElement(0, 0,"*");
-                                                                matLevel12.defElement(4, 1,"R");
-                                                        }
-
-                                                        if(arg == 400 && matLevel12.parcour("R")){
-                                                                matLevel12.defElement(4,1,"*");
-                                                                matLevel13.defElement(1,2,"R");
-                                                        }
-                                                        break;
-                                                
-                                                case "GRAB" :
-                                                        if ( matLevel12.parcour("R") ){
-                                                                if(Integer.parseInt(instruction.getArguments().get(0)) == 5){
-                                                                        System.out.println("30");
-                                                                }
-                                                        }
-                                                        break;
-                                        
-                                                case "ADDI":
-                                                        ADDI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)),register) ;
-                                                        break;
-                                                case "MULI" : 
-                                                        MULI(instruction.getArguments().get(0),instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)),register);
-                                                        break;
-                                                case "SUBI" : 
-                                                        SUBI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)),register);
-                                                        break;
-                                                case "JUMP" : 
-                                                        int nombreInstructionsASauter = Integer.parseInt(instruction.getArguments().get(0));
-                                                        for (int i = 0; i < nombreInstructionsASauter; i++) {   
-                                                                if (iterator.hasNext()) {
-                                                                iterator.next(); // Passez à l'instruction suivante
-                                                                } else {
-                                                                        break; // Sort de la boucle si nous avons atteint la fin de la liste
-                                                                }
-                                                        }
-                                                        break;
-
-                                                case "FJUMP" : 
-                                                int cond = register.getRegister("T").getValue();
-                                                
-                                                if(cond == 0){ 
-                                                int nombreInstructionsASauter_BIS = Integer.parseInt(instruction.getArguments().get(0));
-                                                        for (int i = 0; i < nombreInstructionsASauter_BIS; i++) {   
-                                                                if (iterator.hasNext()) {
-                                                                iterator.next(); // Passez à l'instruction suivante
-                                                                } else {
-                                                                        break; // Sort de la boucle si nous avons atteint la fin de la liste
-                                                                }
-                                                        }
-                                                }
-                                                
-                                                break;
-
-        
-                                                case "HALT" :
-                                                        int value = register.getRegister("T").getValue();
-                                                        if(value == 900){
-                                                                victoire = true;
-                                                                System.out.println("Bien joué");
-                                                        }
-                                                        break;
-
-
-                                                        
-                                                        
-        
-                                                case "COPY" : 
-                                                COPY(instruction.getArguments().get(0), register.getRegister(instruction.getArguments().get(1)), register);
-                                                        
-                                               
                                         }
-                                }
-                                
-                        } while (!victoire);
-                        break;
+                                        else{
+                                                System.out.println("Perdu !");
+                                        }
 
-                        case 2:
+                                        System.out.println("Recommencer ?: \n q : quitter || Entrer: Réessayez");
+                                        quitORtry= Choix.nextLine();
+                                        if(quitORtry.equals("q")){ //Si l'utilisateur appuie sur q ont quitte la boucle lvl 1
+                                                quit2=true;
+                                        }
+                                        
+                                }while (!quit2);
+                                break;
+                                        
+                                     
+                                        
+
+                        case "2":
                         System.out.println("Ca commence !");
                         do {
                                 matLevel21.afficher();
@@ -212,7 +299,7 @@ public static void main (String [] args){
                         } while (!victoire);
                         break;
 
-                        case 3:
+                        case "3":
                         System.out.println("Ca commence !");
                         do {
                                 matLevel31.afficher();
@@ -226,12 +313,16 @@ public static void main (String [] args){
                                 victoire = true;
                         } while (!victoire);
                         break;
-
+                        case "q":
+                                quit1=true;
+                                break;
                         default : System.out.println("Choose Level 1 to 3 !!!");
 
                 }      
         }
+        Choix.close();
         scan.close();
+        nextLine.close();
         scanner.close();
 }
 
@@ -265,18 +356,21 @@ public static void main (String [] args){
         int valA,valB;
         if(Register.contains(A)){
             valA=Register.getRegister(A).getValue();
+       
         }
         else{
+   
             valA=Integer.parseInt(A);
         }
 
         if(Register.contains(B)){
+      
             valB=Register.getRegister(B).getValue();
         }
         else{
-            valB=Integer.parseInt(A);
+           
+            valB=Integer.parseInt(B);
         }
-
         C.Set(valA+valB);
     }
 
@@ -293,7 +387,7 @@ public static void main (String [] args){
             valB=Register.getRegister(B).getValue();
         }
         else{
-            valB=Integer.parseInt(A);
+            valB=Integer.parseInt(B);
         }
 
         C.Set(valA-valB);
@@ -312,7 +406,7 @@ public static void main (String [] args){
             valB=Register.getRegister(B).getValue();
         }
         else{
-            valB=Integer.parseInt(A);
+            valB=Integer.parseInt(B);
         }
 
         C.Set(valA*valB);
