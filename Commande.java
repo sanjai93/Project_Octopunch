@@ -43,15 +43,18 @@ public class Commande{
 
     public static Commande create(){
         Scanner scan = new Scanner(System.in);
-        line LINE= new line(scan.nextLine());//LINE est automatiquement soit true soit false apres que le code ait été rentré
-        scan.close();    
+        String argument=scan.nextLine();
+        
+        line LINE= new line(argument);//LINE est automatiquement soit true soit false apres que le code ait été rentré
+          
         String ligne = LINE.ToSrting();
         String[] instru = ligne.toUpperCase().trim().split("\\s+");
         ArrayList<String> aux = new ArrayList<>();
         Commande ret;
         if (LINE.Legal()){
+           
             switch (instru[0]) {
-                case "LINK": case "GRAB" :
+                case "LINK": case "GRAB" : case "JUMP" : case "FJMP":
                            
                     aux.add(instru[1]);
                     
@@ -59,7 +62,7 @@ public class Commande{
                     ret.SetLegal(true);
                     return ret;
                               
-                case "ADDI" : case "MULTI" : case "SUBI" :
+                case "ADDI" : case "MULI" : case "SUBI" :
                     aux.add(instru[1]);
                     aux.add(instru[2]);
                     aux.add(instru[3]);
@@ -81,17 +84,24 @@ public class Commande{
                     return ret;
             }
         }
+        
         ret = new Commande(ligne, Collections.emptyList()); //Cas ou la ligne est pas legal 
         ret.SetLegal(false);// On change le boolean en false
         return ret;
+        
 
     }
     public static void main(String[] args) {
-        Commande tyty=create();
-        if(tyty !=null)
-            System.out.println(tyty.getName()+tyty.affichArgum());
-        else
-            System.out.println("Erreur d'instruction");
+        Commande tyty;
+        for(int i=0;i<2;i++){
+            tyty=create();
+            if(tyty !=null){
+             System.out.println(tyty.getName()+tyty.affichArgum()+tyty.getLegal());
+               
+            }
+            else
+                System.out.println("Erreur d'instruction");
+        }
     }
        
 
