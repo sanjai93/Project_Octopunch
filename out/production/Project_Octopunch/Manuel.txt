@@ -1,5 +1,0 @@
--Utilisateur rentre une chaine de caract
--La chaine est envoyer au robot apres le bouton d'action(souris ou touche entrer)
--Le robot rentre la chaine dans sont tableau de chaine et la chaine est soumit au test de validité
--Interdiction de lancer le jeux tant que le test de validité n'est pas OK pour tout les chaines du tableau de chaine
--Apres True pour tout le monde, le tableau de chaine est parcourus et les actions sont effectuer dans l'ordre 
