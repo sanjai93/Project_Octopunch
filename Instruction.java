@@ -1,0 +1,3 @@
+public enum Instruction{
+    LINK,GRAB,ADDI,MULTI,SUBI,JUMP,FJUMP,HALT,COPY
+}
