@@ -11,7 +11,7 @@ public class line{
      * 
      * @throws NullPointerException Si instru est null
      */
-    public line(String instru, XA robot) {
+    public line(String instru) {
         if (instru == null) {
             throw new NullPointerException("line: instru est null");
         }
@@ -24,9 +24,12 @@ public class line{
         String[] argum = instru.split("\\s+");
         int i,j;
 
-
+        if (argum[0].equals("HALT")){
+            this.legal = true;
+        }
+        
         //Verifiaction des commandes à 1 argument (FJMP,JUMP ou LINK)
-        if (argum[0].equals("LINK")) {
+        if (argum[0].equals("LINK") || argum[0].equals("GRAB") ) {
             if (argum.length == 2) {//On vérifie que LINK à bien 2 arguments(lui et sont entier )
                 this.legal = true;
                 if (argum[1].charAt(0) == '-') {
@@ -80,7 +83,7 @@ public class line{
 
                 }
             }
-            if (this.legal) {
+           /**  if (this.legal) {
                 int taille = robot.lastIndex() + Integer.parseInt(argum[1]); // Jump et FJMP ce déplace entre les lignes. Il faut vérifier que le déplacement est possible
                 //Donc position initiale + entier duquel tu veux te déplacer=taille
                 if (taille < 0) {
@@ -93,7 +96,7 @@ public class line{
                 else {
                 }
             }
-
+            */
 
 
         }
@@ -105,7 +108,7 @@ public class line{
         if (argum[0].equals("FJMP")) {
             if (argum.length == 2) {//On vérifie que JUMP ou FJMP à bien 2 arguments(lui et sont entier )
 
-                if (robot.getRegister().getRegister("T").getValue() == 0) {
+            
                     this.legal = true;
                     //cas négatif
                     if (argum[1].charAt(0) == '-') {
@@ -127,7 +130,7 @@ public class line{
                         }
 
                     }
-                    if (this.legal) {
+                    /**if (this.legal) {
                         int taille = robot.lastIndex() + Integer.parseInt(argum[1]); // Jump et FJMP ce déplace entre les lignes. Il faut vérifier que le déplacement est possible
                         //Donc position initiale + entier duquel tu veux te déplacer=taille
                         if (taille < 0) {
@@ -141,9 +144,12 @@ public class line{
                         else {
                         }
                     }
-                }
+                     */
+        
+              
 
             }
+             
         }
 
 
@@ -190,7 +196,7 @@ public class line{
 
 
 
-        if (argum[0].equals("ADDI") || argum[0].equals("MULI") || argum[0].equals("SUBI")) {
+        if (argum[0].equals("ADDI") || argum[0].equals("MULI") || argum[0].equals("SUBI") || argum[0].equals("DIVI") ) {
             if (argum.length == 4) { //ADDI,MULI et SUBI ont  bien 3 arguments+ eux meme
 
                 if (listRegiste.contains(argum[3]) && !argum[3].equals("M")) {//on verifie si le 3e argument de copy est un registre

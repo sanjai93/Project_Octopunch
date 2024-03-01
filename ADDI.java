@@ -5,9 +5,9 @@ public class ADDI {
      * @param A
      * @param B
      * @param C
-     * @param Regiter
+     * @param Register
      * */
-    public void ADDI(String A, String B, register C, PrimarRegister Register){
+    public void ADDI(String A, String B, Register C, PrimarRegister Register){
         int valA,valB;
         if(Register.contains(A)){
             valA=Register.getRegister(A).getValue();

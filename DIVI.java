@@ -1,7 +1,5 @@
-public class MULI {
-    
-
-    public void MULI(String A, String B, Register C, PrimarRegister Reg){
+public class DIVI {
+    public void DIVI(String A, String B, Register C, PrimarRegister Reg){
         int valA,valB;
         if(Reg.contains(A)){
             valA=Reg.getRegister(A).getValue();
@@ -17,6 +15,6 @@ public class MULI {
             valB=Integer.parseInt(B);
         }
 
-        C.Set(valA*valB);
+        C.Set(valA/valB);
     }
 }

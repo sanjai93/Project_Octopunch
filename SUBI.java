@@ -1,15 +1,15 @@
 public class SUBI {
-    public void SUBI(String A, String B, register C, PrimarRegister Register){
+    public void SUBI(String A, String B, Register C, PrimarRegister Reg){
         int valA,valB;
-        if(Register.contains(A)){
-            valA=Register.getRegister(A).getValue();
+        if(Reg.contains(A)){
+            valA=Reg.getRegister(A).getValue();
         }
         else{
             valA=Integer.parseInt(A);
         }
 
-        if(Register.contains(B)){
-            valB=Register.getRegister(B).getValue();
+        if(Reg.contains(B)){
+            valB=Reg.getRegister(B).getValue();
         }
         else{
             valB=Integer.parseInt(B);

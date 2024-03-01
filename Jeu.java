@@ -70,6 +70,7 @@ public class Jeu{
                 ADDI addi=new ADDI();
                 SUBI subi=new SUBI();
                 MULI muli=new MULI();
+                DIVI divi=new DIVI();
 
 
 
@@ -97,10 +98,10 @@ public class Jeu{
 
                                                 matLevel12 = new matrice (5,5);
                                                 matLevel12.defElement(4,0,"P");
+                                                matLevel12.defElement(4,4,"F(5)");
 
                                                 matLevel13 = new matrice (5,5);
                                                 matLevel13.defElement(1,1,"P");
-                                                matLevel13.defElement(4,4,"F(5)");
 
                                                 register.getRegister("X").Set(0);
                                                 register.getRegister("F").Set(0);
@@ -108,23 +109,22 @@ public class Jeu{
                                                 register.getRegister("M").Set(0);
 
                                                 HaveF1=false;
-                                                victoire=false;
 
                                                 System.out.println("Ca commence !\n");
                                                 
                                                 //affichage de matrice
                                                 matLevel11.afficher();
-                                                System.out.println("\n---500---");
+                                                System.out.println("\nLINK 500");
                                                 matLevel12.afficher();
-                                                System.out.println("\n---400---");
+                                                System.out.println("\nLINK 400");
                                                 matLevel13.afficher();
                                                 if(!HaveF1){
                                                         System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                                                        " M=" + register.getRegister("M").getValue()+" FOLDER:NONE"+"\nAdd two times the value of file 5 in T register");
+                                                        " M=" + register.getRegister("M").getValue()+" FOLDER:NONE"+"\nCalcul le double du fichier dans le registre T");
                                                 }
                                                 else{
                                                         System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                                                        " M=" + register.getRegister("M").getValue()+" FOLDER:"+fichierL1+"\nAdd two times the value of file 5 in T register");
+                                                        " M=" + register.getRegister("M").getValue()+" FOLDER:"+fichierL1+"\nCalcul le double du fichier dans le registre T");
                                                 }
                                         
                                                 
@@ -181,12 +181,12 @@ public class Jeu{
                                                                 case "GRAB" :
                                                                         arg = Integer.parseInt(instruction.getArguments().get(0));
                                                                         //Si le robot est dans la matrice + argument rentré est bine celui du fichier + Tu n'a pas de fichier 
-                                                                        if ( matLevel13.parcour("R") && arg == 5 && !HaveF1){
+                                                                        if ( matLevel12.parcour("R") && arg == 5 && !HaveF1){
                                                                                 
                                                                                 HaveF1=true; //Tu à maintenant un fichier
                                                                                 register.getRegister("M").Set(fichierL1);//M prend la valeur à l'interieur du fichier
-                                                                                matLevel13.defElement(1,2,"*");
-                                                                                matLevel13.defElement(4,3,"R");
+                                                                                matLevel12.defElement(4,1,"*");
+                                                                                matLevel12.defElement(4,3,"R"); 
                                                                         }
                                                                         break;
                                                         
@@ -201,6 +201,11 @@ public class Jeu{
                                                                         
                                                                         subi.SUBI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)),register);
                                                                         break;
+
+                                                                case "DIVI" : 
+                                                                        divi.DIVI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)),register);
+                                                                        break;
+
                                                                 case "JUMP" : 
                                                                         int nombreInstructionsASauter = Integer.parseInt(instruction.getArguments().get(0));
                                                                         for (i = 0; i < nombreInstructionsASauter && position<listeInstruction.size()-2 && iterator.hasNext() ; i++) {   
@@ -231,7 +236,7 @@ public class Jeu{
                         
                                                                 case "HALT" :
                                                                         int value = register.getRegister("T").getValue();
-                                                                        if(value == 246){
+                                                                        if(value == 900){
                                                                                 victoire = true;
                                                                         }
                                                                         break;
@@ -253,11 +258,11 @@ public class Jeu{
                                                         matLevel13.afficher();
                                                         if(!HaveF1){
                                                                 System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                                                                " M=" + register.getRegister("M").getValue()+" FOLDER:NONE"+"\nAdd two times the value of file 5 in T register");
+                                                                " M=" + register.getRegister("M").getValue()+" FOLDER:NONE"+"\nCalcul le double du fichier dans le registre T");
                                                         }
                                                         else{
                                                                 System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                                                                " M=" + register.getRegister("M").getValue()+" FOLDER:"+fichierL1+"\nAdd two times the value of file 5 in T register");
+                                                                " M=" + register.getRegister("M").getValue()+" FOLDER:"+fichierL1+"\nCalcul le double du fichier dans le registre T");
                                                         }
 
 
@@ -271,39 +276,16 @@ public class Jeu{
 
                                                 listeInstruction.removeAll(listeInstruction);//Remis à vide car la partie est terminée
                                                 if(victoire){
-                                                        System.out.println("Mission Success");
-                                                        System.out.println("Auto Destruction ROBOT");
-                                                        for(int k=3; k > 0; k-- ){      // Affichage 3 petit points //
-                                                                System.out.print(".");
-                                                                try {
-                                                                        Thread.sleep(200); // 500 milliseconde
-                                                                    } catch (InterruptedException e) {
-                                                                        e.printStackTrace();
-                                                                    }
+                                                        System.out.println("Bien joué");
                                                 
-                                                        }
-
-                                                        System.out.println();
-                                
-                                                        for(int k=3; k > 0; k-- ){
-                                                                System.out.println(k);
-                                                                try {
-                                                                        Thread.sleep(300); // Pause d'une seconde
-                                                                    } catch (InterruptedException e) {
-                                                                        e.printStackTrace();
-                                                                    }
-                                                             
-                                                        }
-                                                        System.out.println("Project OctoPunch complete :-)");
-                                                
-                                                } 
+                                                }
                                                 else{
                                                         System.out.println("Perdu !");
                                                 }
 
                                                 System.out.println("Recommencer ?: \n q : quitter || Entrer: Réessayez");
                                                 quitORtry= Choix.nextLine();
-                                                if(quitORtry.equals("q") || quitORtry.equals("Q")){ //Si l'utilisateur appuie sur q ont quitte la boucle lvl 1
+                                                if(quitORtry.equals("q")){ //Si l'utilisateur appuie sur q ont quitte la boucle lvl 1
                                                         quit2=true;
                                                 }
                                                 
@@ -342,7 +324,7 @@ public class Jeu{
                                         victoire = true;
                                 } while (!victoire);
                                 break;
-                                case "q": case "Q":
+                                case "q":
                                         quit1=true;
                                         break;
                                 default : System.out.println("Choose Level 1 to 3 !!!");
