@@ -24,7 +24,7 @@ public class line{
         String[] argum = instru.split("\\s+");
         int i,j;
 
-        if (argum[0].equals("HALT")){
+        if ((argum[0].equals("HALT") || argum[0].equals("NOOP"))  && argum.length == 1){
             this.legal = true;
         }
         

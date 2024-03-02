@@ -70,7 +70,7 @@ public class Commande{
                     ret.SetLegal(true);
                     return ret;
 
-                case "HALT" :
+                case "HALT" : case "NOOP" : 
 
                     ret=new Commande(instru[0], Collections.emptyList());
                     ret.SetLegal(true);
