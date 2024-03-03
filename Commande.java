@@ -62,7 +62,7 @@ public class Commande{
                     ret.SetLegal(true);
                     return ret;
                               
-                case "ADDI" : case "MULI" : case "SUBI" : case "DIVI" :
+                case "ADDI" : case "MULI" : case "SUBI" : case "DIVI" :case "MODI" :case "SWIZ" : case "TEST" :
                     aux.add(instru[1]);
                     aux.add(instru[2]);
                     aux.add(instru[3]);

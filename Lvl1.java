@@ -44,7 +44,7 @@ public class Lvl1 {
 
 
         @SuppressWarnings("resource")
-        Scanner nextLine = new Scanner(System.in); //Scanne la touche entrer à chaque parcours de la liste d'instruction
+        Scanner NextInstru = new Scanner(System.in); //Scanne la touche entré à chaque parcours de la liste d'instruction
         Scanner Choix = new Scanner(System.in);//quitter ou retry
         Scanner speed = new Scanner(System.in);
 
@@ -54,8 +54,7 @@ public class Lvl1 {
         boolean HaveF1 = false; //Etat de la possesion du fichier
         boolean quit = false; // Souhaite quitter le niveau
         boolean quit1 = false; // Souhaite quitter le TRC
-        boolean TRC = true;//Représente l'etat du cycle en cours
-        boolean victoire1 = false; // Etat du niveau 
+        boolean TRC;//Représente l'etat du cycle en cours
 
 
         Commande commande;
@@ -65,6 +64,7 @@ public class Lvl1 {
         String quitORtry; 
         String nomInstruction;
         String Speed;
+        String NextInstruc;
         ListIterator<Commande> iterator;
 
 
@@ -74,6 +74,9 @@ public class Lvl1 {
         SUBI subi = new SUBI();
         MULI muli = new MULI();
         DIVI divi = new DIVI();
+        MODI modi = new MODI();
+        SWIZ swiz = new SWIZ();
+        TEST test = new TEST();
 
 
         int arg;
@@ -115,20 +118,18 @@ public class Lvl1 {
             System.out.println("\n---400---");
             matLevel13.afficher();
 
-            if(!HaveF1){
-                    System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                    " M=" + register.getRegister("M").getValue()+" FOLDER:NONE"+"\n");
-                    System.out.println("Add two times the value of file 5 in T register");
-                    System.out.println("Cycles :"+cycle);
-                    System.out.println("TEST RUN COMPLETE "+TRC1+"/"+TRC2);
-            }
+            System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
+            " M=" + register.getRegister("M").getValue());
+            if(!HaveF1){ 
+                System.out.println("FOLDER : NONE\n");
+            } //Si il à pas de fichier 
             else{
-                    System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                    " M=" + register.getRegister("M").getValue()+" FOLDER:"+fichierL1+"\n");
-                    System.out.println("Add two times the value of file 5 in T register\n");
-                    System.out.println("Cycles :"+cycle);
-                    System.out.println("TEST RUN COMPLETE "+TRC1+"/"+TRC2);
+                System.out.println(" FOLDER :"+fichierL1+"\n");
             }
+
+            System.out.println("Add two times the value of file 5 in T register");
+            System.out.println("Cycles :"+cycle);
+            System.out.println("TEST RUN COMPLETE "+TRC1+"/"+TRC2);
 
             listeInstruction.removeAll(listeInstruction);
             // Stockage des Commandes et argument de l'utilisateur dans un tableau jusqu'a que Halt soit entrée //
@@ -141,7 +142,7 @@ public class Lvl1 {
                     for (Commande e : listeInstruction) {
                         if (!e.getLegal()) {
                             System.out.println("L'une des lignes rentrée est incorrect \n");
-                            listeInstruction.removeAll(listeInstruction);// On efface tout, pour l'instant..
+                            listeInstruction.removeAll(listeInstruction);// On efface tout, pour l'instant.
 
                             break;
 
@@ -149,7 +150,7 @@ public class Lvl1 {
                     }
                 }
 
-            } while (!((commande.getName().equals("HALT")) && (listeInstruction.size() > 0)));//Tu sors pas tant que tu as halt + une taille>1
+            } while (!((commande.getName().equals("HALT")) && (listeInstruction.size() > 0)));//Tu ne sors pas tant que tu as halt + une taille>1
 
             /*  Lecture des commandes
             L'utilisation d'un Iterateur serait plus convenable
@@ -159,9 +160,9 @@ public class Lvl1 {
 
             TRC = true;
             quit1=false;
-            while (TRC && TRC1<TRC2 && !quit1){ //Nombre de test < nombre de teste requis pour gagner && L'utilisateur veut pas quitter
+            while (TRC && TRC1<TRC2 && !quit1){ //Nombre de tests < nombre de tests requis pour gagner && L'utilisateur veut pas quitter
                 TRC = false; //Le but est qu'il devient true
-                cycle=0; //Initialise le compteur de cycle à 0
+                cycle=0; //Initialise le compteur de cycle a 0
                 iterator = listeInstruction.listIterator();
                 position = 0;//Pour savoir ou sommes nous dans la liste
                 while (iterator.hasNext()) {
@@ -215,6 +216,20 @@ public class Lvl1 {
                         case "DIVI":
                             divi.DIVI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)), register);
                             break;
+                        case "MODI":
+
+                            modi.MODI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)), register);
+                            break;
+                        case "SWIZ":
+
+                            swiz.SWIZ(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)), register);
+                            break;
+
+                            case "TEST":
+
+                            test.TEST(instruction.getArguments().get(0), instruction.getArguments().get(1), instruction.getArguments().get(2), register);
+                            break;
+    
 
                         case "JUMP":
                             int nombreInstructionsASauter = Integer.parseInt(instruction.getArguments().get(0));
@@ -267,36 +282,49 @@ public class Lvl1 {
                     matLevel12.afficher();
                     System.out.println("\n---400---");
                     matLevel13.afficher();
-                    if(!HaveF1){
-                        System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                        " M=" + register.getRegister("M").getValue()+" FOLDER:NONE"+"\n");
-                        System.out.println("Add two times the value of file 5 in T register");
-                        System.out.println("Cycles :"+cycle);
-                        System.out.println("TEST RUN COMPLETE "+TRC1+"/"+TRC2);
-                    }
+                    position++;
+                    cycle++;
+                    System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
+                    " M=" + register.getRegister("M").getValue());
+                    if(!HaveF1){ 
+                        System.out.println("FOLDER : NONE\n");
+                    } //Si il à pas de fichier 
                     else{
-                        System.out.println("\nX=" +register.getRegister("X").getValue() + " F=" +register.getRegister("F").getValue()+ " T=" +register.getRegister("T").getValue()+ 
-                        " M=" + register.getRegister("M").getValue()+" FOLDER:"+fichierL1+"\n");
-                        System.out.println("Add two times the value of file 5 in T register\n");
-                        System.out.println("Cycles :"+cycle);
-                        System.out.println("TEST RUN COMPLETE "+TRC1+"/"+TRC2);
+                        System.out.println(" FOLDER : "+fichierL1+"\n");
                     }
+
+                    System.out.println("Add two times the value of file 5 in T register");
+                    System.out.println("Cycles :"+cycle);
+                    if(TRC){
+                        TRC1++;
+                    }
+                    System.out.println("TEST RUN COMPLETE "+TRC1+"/"+TRC2);
+            
 
 
 
 
                     System.out.println("\n___" + instruction.getName() + instruction.affichArgum() + "___"); //La ligne qui a provoqué les changements
-                    System.out.println("Entrée : Instruction suivante || q : quitter ");
-                    nextLine.nextLine();
-                    if(nextLine.equals("Q") || nextLine.equals("q")){ break;}
-                    position++;
-                    cycle++;
+
+                    if(iterator.hasNext()) { //Si jamais il reste encore des lignes
+                        System.out.println("Entrée : Instruction suivante || q : quitter ");
+                        NextInstruc=NextInstru.nextLine();
+                        if (NextInstruc.equals("Q") || NextInstruc.equals("q")) {
+                            System.out.println("break!\n");
+                            break;
+
+                        }
+                        System.out.println("break2!\n");
+
+
+                    }
 
 
                 }
                 if(TRC){//Si le cycle est valide(Impossible à obtenir si on à pas minimum atteint le HALT)
-                    TRC1++;
-                    System.out.println("Valide !\n");
+                
+
+                    System.out.println("RUN VALIDE !\n");
                     System.out.println("Entrée : Prochain cycles || s : Accélérer || r : Recommencer || q : Quitter  ");
                     Speed=speed.nextLine();
                     switch (Speed){
@@ -312,19 +340,21 @@ public class Lvl1 {
                             }
                             break;
                         case "r" : case "R" :
-                            quit1=true;
+                            TRC = false; //On recommence, on annule donc la validation du cycle
+                            quit1=true; //On veut quitter la boucle TRC
                             break;
                         case "q": case "Q":
-                            quit1=true;
-                            quit=true;
+                            quit1=true; // Quitte la boucle TRC
+                            quit=true; //Quitte le jeu
+                            TRC =false; //on annule donc la validation du cycle
                             break;
                         default:
                             break;
                     }
                 }
                 else{
-                    System.out.println("Invalide !");
-                    System.out.println("Entrée : Recommencer || q : quitter  ");
+                    System.out.println("ECHEC DE CETTE RUN !");
+                    System.out.println("Entrée : Continuer à codé (Recommencer) || q : quitter  ");
                     Speed=speed.nextLine();
                     switch (Speed){
                         case "q": case "Q":
@@ -341,13 +371,13 @@ public class Lvl1 {
             }
 
             
-            if(TRC){// Si on a quitter en haut et que TRC est toujours true
+            if(TRC){// Si on a quitté en haut et que TRC est toujours true
                 System.out.println("Mission Success");
                 System.out.println("Auto Destruction ROBOT");
                 for(int k=3; k > 0; k-- ){      // Affichage 3 petit points //
                         System.out.print(".");
                         try {
-                                Thread.sleep(200); // 500 milliseconde
+                                Thread.sleep(200); // 500 millisecondes
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -367,10 +397,10 @@ public class Lvl1 {
                 System.out.println("Project OctoPunch complete :-)");
                 System.out.println("Recommencer ?: \n q : quitter || Entrer: Réessayez");
                 quitORtry= Choix.nextLine();
-                if(quitORtry.equals("q") || quitORtry.equals("Q")){ //Si l'utilisateur appuie sur q ont quitte la boucle lvl 1
+                if(quitORtry.equals("q") || quitORtry.equals("Q")){ //Si l'utilisateur appuie sur q, on quitte la boucle lvl 1
                     quit=true;
                 }
-                listeInstruction.removeAll(listeInstruction);//Remis à vide car la partie est terminée
+                listeInstruction.removeAll(listeInstruction);//Remis à vide, car la partie est terminée
             }
 
 
