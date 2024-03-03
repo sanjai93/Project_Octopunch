@@ -18,30 +18,7 @@ public class Lvl1 {
 
         matrice matLevel13;
 
-        // Matrices pour le niveau 2 //
-        matrice matLevel21 = new matrice(5, 5);
-        matLevel21.defElement(0, 0, "R");
-        matLevel21.defElement(0, 4, "P");
-
-        matrice matLevel22 = new matrice(5, 5);
-        matLevel22.defElement(4, 2, "P");
-
-        matrice matLevel23 = new matrice(5, 5);
-        ;
-        matLevel23.defElement(4, 4, "F");
-
-
-        // Matrices pour le niveau 3 //
-        matrice matLevel31 = new matrice(5, 5);
-        matLevel31.defElement(0, 0, "R");
-        matLevel31.defElement(1, 4, "P");
-
-        matrice matLevel32 = new matrice(5, 5);
-        matLevel32.defElement(1, 0, "P");
-        ;
-        matLevel32.defElement(4, 4, "F");
-
-
+     
 
         @SuppressWarnings("resource")
         Scanner NextInstru = new Scanner(System.in); //Scanne la touche entré à chaque parcours de la liste d'instruction
@@ -310,11 +287,11 @@ public class Lvl1 {
                         System.out.println("Entrée : Instruction suivante || q : quitter ");
                         NextInstruc=NextInstru.nextLine();
                         if (NextInstruc.equals("Q") || NextInstruc.equals("q")) {
-                            System.out.println("break!\n");
+                 
                             break;
 
                         }
-                        System.out.println("break2!\n");
+                   
 
 
                     }
