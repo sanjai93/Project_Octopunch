@@ -7,6 +7,7 @@ public class GraphicInterface {
     private static int currentLine = 0;
     private static JTabbedPane robotTabs = new JTabbedPane();
 
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("Exapunks Clone");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,6 +29,32 @@ public class GraphicInterface {
         JPanel buttonPanel = new JPanel();
         JButton stepButton = new JButton("Step");
         JButton stopButton = new JButton("Stop");
+
+        // Création de la barre de menu
+        JMenuBar menuBar = new JMenuBar();
+
+        // Menu Jeu
+        JMenu gameMenu = new JMenu("Jeu");
+        JMenuItem startGame = new JMenuItem("Démarrer le jeu");
+        JMenuItem endGame = new JMenuItem("Terminer le jeu");
+        gameMenu.add(startGame);
+        gameMenu.add(endGame);
+
+        // Menu Difficulté
+        JMenu difficultyMenu = new JMenu("Difficulté");
+        JMenuItem easy = new JMenuItem("Facile");
+        JMenuItem medium = new JMenuItem("Moyen");
+        JMenuItem hard = new JMenuItem("Difficile");
+        difficultyMenu.add(easy);
+        difficultyMenu.add(medium);
+        difficultyMenu.add(hard);
+
+        // Ajouter les menus à la barre de menu
+        menuBar.add(gameMenu);
+        menuBar.add(difficultyMenu);
+
+        // Ajouter la barre de menu à la fenêtre
+        frame.setJMenuBar(menuBar);
 
         stepButton.addActionListener(new ActionListener() {
             @Override
