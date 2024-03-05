@@ -100,14 +100,26 @@ public class GraphicInterface {
                 }
             }
 
-            // Dessiner le robot si shouldDisplaySpider est vrai
             if (shouldDisplaySpider) {
-                int x = robotCol * cellSize + cellSize / 4; // Position x du robot dans la grille
-                int y = robotRow * cellSize + cellSize / 4; // Position y du robot dans la grille
-                g.setColor(Color.BLACK);
-                g.fillOval(x, y, cellSize / 2, cellSize / 2); // Utilisez une forme simple pour le robot
+                int x = robotCol * cellSize;
+                int y = robotRow * cellSize;
+                // Corps du robot
+                g.setColor(Color.DARK_GRAY);
+                g.fillRect(x + 20, y + 20, cellSize - 40, cellSize - 40);
+                // Tête du robot
+                g.setColor(Color.LIGHT_GRAY);
+                g.fillRect(x + 30, y + 10, cellSize - 60, 20);
+                // Yeux du robot
+                g.setColor(Color.RED);
+                g.fillOval(x + 30, y + 15, 10, 10);
+                g.fillOval(x + cellSize - 40, y + 15, 10, 10);
+                // Bras du robot
+                g.setColor(Color.LIGHT_GRAY);
+                g.fillRect(x + 10, y + 30, 10, 20);
+                g.fillRect(x + cellSize - 20, y + 30, 10, 20);
             }
         }
+
     }
 
 
