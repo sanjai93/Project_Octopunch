@@ -21,9 +21,6 @@ public class GraphicInterface {
         robotTabs.addTab("Robot 2", new JScrollPane(codeArea2));
         frame.add(robotTabs, BorderLayout.WEST);
 
-        // Zone de jeu
-        GamePanel gamePanel = new GamePanel();
-        frame.add(gamePanel, BorderLayout.CENTER);
 
         // Panneau pour les boutons
         JPanel buttonPanel = new JPanel();
@@ -31,14 +28,28 @@ public class GraphicInterface {
         JButton stepButton = new JButton("Step");
         JButton stopButton = new JButton("Stop");
 
-        // Zone de texte pour les instructions du robot
-        JTextArea instructionsArea = new JTextArea(5, 30); // Hauteur de 5 lignes et largeur adaptée
-        JScrollPane instructionsScrollPane = new JScrollPane(instructionsArea); // Ajoute le défilement
-        instructionsArea.setLineWrap(true); // Active le retour à la ligne automatique
-        instructionsArea.setWrapStyleWord(true); // Assure le retour à la ligne par mots
+        // Panneau principal avec BorderLayout
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // Positionnement de la zone de texte en bas de la fenêtre
-        frame.add(instructionsScrollPane, BorderLayout.SOUTH);
+        // Zone de jeu
+        GamePanel gamePanel = new GamePanel();
+        // Définir une taille préférée pour la grille de jeu peut aider à la gestion de l'espace
+        gamePanel.setPreferredSize(new Dimension(500, 500)); // Adaptez selon votre besoin
+
+        // Zone de texte pour les instructions du robot
+        JTextArea instructionsArea = new JTextArea(3, 20); // Réduire le nombre de lignes pour diminuer la hauteur
+        JScrollPane instructionsScrollPane = new JScrollPane(instructionsArea);
+        instructionsArea.setLineWrap(true);
+        instructionsArea.setWrapStyleWord(true);
+
+        // Ajouter la grille de jeu au centre du panneau principal
+        mainPanel.add(gamePanel, BorderLayout.CENTER);
+
+        // Ajouter la zone de texte en bas du panneau principal
+        mainPanel.add(instructionsScrollPane, BorderLayout.SOUTH);
+
+        // Ajouter le panneau principal à la fenêtre
+        frame.add(mainPanel);
 
 
         // Création de la barre de menu
@@ -86,6 +97,7 @@ public class GraphicInterface {
         });
 
 
+        buttonPanel.add(runButton);
         buttonPanel.add(stepButton);
         buttonPanel.add(stopButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
