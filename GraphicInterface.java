@@ -71,29 +71,45 @@ public class GraphicInterface {
 
     static class GamePanel extends JPanel {
         private boolean shouldDisplaySpider = false;
+        private int robotRow = 0; // Ligne initiale du robot
+        private int robotCol = 0; // Colonne initiale du robot
+        private final int gridSize = 5; // Taille de la grille 5x5
+        private final int cellSize = 100; // Taille de chaque cellule de la grille
 
         public void setShouldDisplaySpider(boolean shouldDisplaySpider) {
             this.shouldDisplaySpider = shouldDisplaySpider;
             repaint();
         }
 
+        public void moveRobot(int newRow, int newCol) {
+            // Assurez-vous que les nouvelles coordonnées sont dans les limites de la grille
+            if (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
+                robotRow = newRow;
+                robotCol = newCol;
+                repaint();
+            }
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            if (shouldDisplaySpider) {
-                // Dessiner le corps de l'araignée
-                g.setColor(Color.BLACK);
-                g.fillOval(150, 100, 40, 40); // Céphalothorax
-                g.fillOval(140, 140, 60, 60); // Abdomen
+            // Dessiner la grille
+            for (int i = 0; i < gridSize; i++) {
+                for (int j = 0; j < gridSize; j++) {
+                    g.drawRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                }
+            }
 
-                // Dessiner les pattes de l'araignée
-                g.drawLine(150, 120, 100, 90); // Pattes à gauche
-                g.drawLine(150, 120, 100, 150);
-                g.drawLine(190, 120, 240, 90); // Pattes à droite
-                g.drawLine(190, 120, 240, 150);
+            // Dessiner le robot si shouldDisplaySpider est vrai
+            if (shouldDisplaySpider) {
+                int x = robotCol * cellSize + cellSize / 4; // Position x du robot dans la grille
+                int y = robotRow * cellSize + cellSize / 4; // Position y du robot dans la grille
+                g.setColor(Color.BLACK);
+                g.fillOval(x, y, cellSize / 2, cellSize / 2); // Utilisez une forme simple pour le robot
             }
         }
     }
+
 
 
 }
