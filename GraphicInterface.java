@@ -71,8 +71,8 @@ public class GraphicInterface {
 
     static class GamePanel extends JPanel {
         private boolean shouldDisplaySpider = false;
-        private int robotRow = 0; // Ligne initiale du robot
-        private int robotCol = 0; // Colonne initiale du robot
+        private int robotRow = 1; // Ligne initiale du robot
+        private int robotCol = 1; // Colonne initiale du robot
         private final int gridSize = 5; // Taille de la grille 5x5
         private final int cellSize = 100; // Taille de chaque cellule de la grille
 
@@ -93,10 +93,16 @@ public class GraphicInterface {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+            // Calculer le point de départ pour centrer la grille
+            int totalGridWidth = gridSize * cellSize;
+            int totalGridHeight = gridSize * cellSize;
+            int startX = (getWidth() - totalGridWidth) / 2;
+            int startY = (getHeight() - totalGridHeight) / 2;
+
             // Dessiner la grille
             for (int i = 0; i < gridSize; i++) {
                 for (int j = 0; j < gridSize; j++) {
-                    g.drawRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                    g.drawRect(startX + i * cellSize, startY + j * cellSize, cellSize, cellSize);
                 }
             }
 
