@@ -24,9 +24,9 @@ public class GraphicInterface {
 
         // Panneau pour les boutons
         JPanel buttonPanel = new JPanel();
-        JButton runButton = new JButton("Run");
-        JButton stepButton = new JButton("Step");
-        JButton stopButton = new JButton("Stop");
+        JButton runButton = createStyledButton("Run");
+        JButton stepButton = createStyledButton("Step");
+        JButton stopButton = createStyledButton("Stop");
 
         // Panneau principal avec BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -110,13 +110,20 @@ public class GraphicInterface {
         if (currentLine < lines.length) {
             String instruction = lines[currentLine];
             currentLine++;
-            // TODO: Ajoutez la logique pour exécuter l'instruction
         }
     }
 
     private static void resetRobot(JTextArea codeArea) {
         currentLine = 0;
-        // TODO: Ajoutez toute autre logique de réinitialisation nécessaire
+    }
+
+    private static JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(0, 0, 51)); // Fond bleu foncé
+        button.setForeground(new Color(255, 255, 153)); // Texte en jaune clair
+        //  Police Arial Narrow
+        button.setFont(new Font("Arial Narrow", Font.BOLD, 12));
+        return button;
     }
 
     static class GamePanel extends JPanel {
@@ -149,9 +156,12 @@ public class GraphicInterface {
             int startX = (getWidth() - totalGridWidth) / 2;
             int startY = (getHeight() - totalGridHeight) / 2;
 
-            // Dessiner la grille
+            // Dessiner la grille avec des cases noires et des bordures vertes
             for (int i = 0; i < gridSize; i++) {
                 for (int j = 0; j < gridSize; j++) {
+                    g.setColor(Color.BLACK);
+                    g.fillRect(startX + i * cellSize, startY + j * cellSize, cellSize, cellSize);
+                    g.setColor(Color.GREEN);
                     g.drawRect(startX + i * cellSize, startY + j * cellSize, cellSize, cellSize);
                 }
             }
@@ -160,13 +170,13 @@ public class GraphicInterface {
                 int x = robotCol * cellSize;
                 int y = robotRow * cellSize;
                 // Corps du robot
-                g.setColor(Color.DARK_GRAY);
+                g.setColor(Color.ORANGE);
                 g.fillRect(x + 20, y + 20, cellSize - 40, cellSize - 40);
                 // Tête du robot
                 g.setColor(Color.LIGHT_GRAY);
                 g.fillRect(x + 30, y + 10, cellSize - 60, 20);
                 // Yeux du robot
-                g.setColor(Color.RED);
+                g.setColor(Color.GREEN);
                 g.fillOval(x + 30, y + 15, 10, 10);
                 g.fillOval(x + cellSize - 40, y + 15, 10, 10);
                 // Bras du robot
