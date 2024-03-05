@@ -26,7 +26,7 @@ public class GraphicInterface {
 
         // Panneau pour les boutons
         JPanel buttonPanel = new JPanel();
-        JButton stepButton = new JButton("Pas");
+        JButton stepButton = new JButton("Step");
         JButton stopButton = new JButton("Stop");
 
         stepButton.addActionListener(new ActionListener() {
