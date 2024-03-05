@@ -27,8 +27,10 @@ public class GraphicInterface {
 
         // Panneau pour les boutons
         JPanel buttonPanel = new JPanel();
+        JButton stopButton = new JButton("Run");
         JButton stepButton = new JButton("Step");
         JButton stopButton = new JButton("Stop");
+
 
         // Création de la barre de menu
         JMenuBar menuBar = new JMenuBar();
