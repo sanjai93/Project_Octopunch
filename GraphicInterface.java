@@ -27,9 +27,18 @@ public class GraphicInterface {
 
         // Panneau pour les boutons
         JPanel buttonPanel = new JPanel();
-        JButton stopButton = new JButton("Run");
+        JButton runButton = new JButton("Run");
         JButton stepButton = new JButton("Step");
         JButton stopButton = new JButton("Stop");
+
+        // Zone de texte pour les instructions du robot
+        JTextArea instructionsArea = new JTextArea(5, 30); // Hauteur de 5 lignes et largeur adaptée
+        JScrollPane instructionsScrollPane = new JScrollPane(instructionsArea); // Ajoute le défilement
+        instructionsArea.setLineWrap(true); // Active le retour à la ligne automatique
+        instructionsArea.setWrapStyleWord(true); // Assure le retour à la ligne par mots
+
+        // Positionnement de la zone de texte en bas de la fenêtre
+        frame.add(instructionsScrollPane, BorderLayout.SOUTH);
 
 
         // Création de la barre de menu
