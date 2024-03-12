@@ -11,7 +11,7 @@ public class GraphicInterface {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Exapunks Clone");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1600, 1100);
+        frame.setSize(1600, 900);
 
         // Ajout des zones de texte pour différents robots
         JTextArea codeArea1 = new JTextArea(20, 40);
@@ -37,9 +37,9 @@ public class GraphicInterface {
         frame.add(mainPanel, BorderLayout.CENTER);
 
         // Création et configuration des GamePanel
-        GamePanel gamePanel1 = new GamePanel(60); // Utilisation d'une taille de cellule réduite comme exemple
-        GamePanel gamePanel2 = new GamePanel(60); // Idem
-        GamePanel gamePanel3 = new GamePanel(60); // Idem
+        GamePanel gamePanel1 = new GamePanel(40); // Utilisation d'une taille de cellule réduite comme exemple
+        GamePanel gamePanel2 = new GamePanel(40); // Idem
+        GamePanel gamePanel3 = new GamePanel(40); // Idem
 
         // Configuration des positions de manière à ne pas les empiler
         positionGamePanels(mainPanel, gamePanel1, gamePanel2, gamePanel3);
@@ -118,7 +118,7 @@ public class GraphicInterface {
     private static void positionGamePanels(JPanel mainPanel, GamePanel... gamePanels) {
         int x = 10; // Position initiale x
         int y = 10; // Position initiale y
-        int offset = 300; // Décalage pour la position suivante
+        int offset = 220; // Décalage pour la position suivante
 
         for (GamePanel gamePanel : gamePanels) {
             gamePanel.setBounds(x, y, gamePanel.getCellSize() * gamePanel.getGridSize(), gamePanel.getCellSize() * gamePanel.getGridSize());
@@ -194,27 +194,42 @@ public class GraphicInterface {
             }
 
             if (shouldDisplaySpider) {
-                int x = robotCol * cellSize;
-                int y = robotRow * cellSize;
-                // Corps du robot
-                g.setColor(Color.ORANGE);
-                g.fillRect(x + 20, y + 20, cellSize - 40, cellSize - 40);
-                // Tête du robot
-                g.setColor(Color.LIGHT_GRAY);
-                g.fillRect(x + 30, y + 10, cellSize - 60, 20);
-                // Yeux du robot
-                g.setColor(Color.GREEN);
-                g.fillOval(x + 30, y + 15, 10, 10);
-                g.fillOval(x + cellSize - 40, y + 15, 10, 10);
-                // Bras du robot
-                g.setColor(Color.LIGHT_GRAY);
-                g.fillRect(x + 10, y + 30, 10, 20);
-                g.fillRect(x + cellSize - 20, y + 30, 10, 20);
+                int centerX = startX + robotCol * cellSize + cellSize / 2; // Centre du robot dans la cellule
+                int centerY = startY + robotRow * cellSize + cellSize / 2;
+                int bodyRadius = cellSize / 4; // Rayon du corps de l'araignée robot
+
+                // Corps de l'araignée robot
+                g.setColor(new Color(60, 60, 60)); // Un gris métallique foncé
+                g.fillOval(centerX - bodyRadius, centerY - bodyRadius, 2 * bodyRadius, 2 * bodyRadius);
+
+                // Yeux de l'araignée robot
+                g.setColor(Color.RED); // Utilisation de LED rouges pour les yeux
+                int eyeRadius = bodyRadius / 4;
+                int eyesCount = 8; // Une araignée a typiquement 8 yeux
+                for (int i = 0; i < eyesCount / 2; i++) {
+                    // Disposer les yeux autour du corps
+                    double angle = Math.PI / (eyesCount / 2 - 1) * i;
+                    int eyeX = centerX + (int) (bodyRadius * Math.cos(angle)) - eyeRadius / 2;
+                    int eyeY = centerY - (int) (bodyRadius * Math.sin(angle)) - eyeRadius / 2;
+                    g.fillOval(eyeX, eyeY, eyeRadius, eyeRadius);
+                    g.fillOval(centerX - (eyeX - centerX) - eyeRadius, eyeY, eyeRadius, eyeRadius); // Miroir pour les yeux de l'autre côté
+                }
+
+                // Pattes de l'araignée robot
+                g.setColor(new Color(80, 80, 80)); // Une teinte légèrement différente pour les pattes
+                int legLength = cellSize / 2;
+                for (int i = 0; i < 4; i++) { // 4 paires de pattes
+                    double angle = Math.PI / 4 * i;
+                    int legEndX = centerX + (int) (legLength * Math.cos(angle));
+                    int legEndY = centerY - (int) (legLength * Math.sin(angle));
+                    g.drawLine(centerX, centerY, legEndX, legEndY); // Pattes partant du centre du corps
+                    g.drawLine(centerX, centerY, centerX - (legEndX - centerX), legEndY); // Pattes miroir de l'autre côté
+                }
             }
+
         }
 
+
     }
-
-
-
 }
+
