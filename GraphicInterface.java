@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class GraphicInterface {
     private static int currentLine = 0;
@@ -11,12 +12,12 @@ public class GraphicInterface {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Exapunks Clone");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1600, 900);
+        frame.setSize(1200, 770);
 
         // Ajout des zones de texte pour différents robots
-        JTextArea codeArea1 = new JTextArea(20, 40);
+        JTextArea codeArea1 = createRobotCodeArea();
         robotTabs.addTab("Robot 1", new JScrollPane(codeArea1));
-        JTextArea codeArea2 = new JTextArea(20, 40);
+        JTextArea codeArea2 = createRobotCodeArea();
         robotTabs.addTab("Robot 2", new JScrollPane(codeArea2));
         frame.add(robotTabs, BorderLayout.WEST);
 
@@ -115,6 +116,30 @@ public class GraphicInterface {
         }
     }
 
+    private static JTextArea createRobotCodeArea() {
+        JTextArea codeArea = new JTextArea(20, 40);
+        // Vérifier si la police "Orbitron" est disponible, sinon utiliser "Monospaced"
+        if (Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()).contains("Orbitron")) {
+            codeArea.setFont(new Font("Orbitron", Font.BOLD, 12)); // Utilisez Orbitron si disponible
+        } else {
+            codeArea.setFont(new Font("Monospaced", Font.BOLD, 12)); // Sinon, reculez sur Monospaced
+        }
+        codeArea.setForeground(new Color(255, 00, 00)); // Couleur du texte en vert lumineux, style terminal ou code éditeur
+        codeArea.setBackground(new Color(0, 0, 0)); // Arrière-plan noir
+        codeArea.setCaretColor(Color.WHITE); // Couleur du curseur
+        codeArea.setBorder(BorderFactory.createCompoundBorder(
+                codeArea.getBorder(),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5))); // Ajouter un peu d'espace autour du texte
+
+        // Pour une bordure plus sophistiquée :
+        codeArea.setBorder(BorderFactory.createLineBorder(new Color(30, 30, 30), 2)); // Bordure grise foncée
+
+        // Ajouter un effet de scroll
+        JScrollPane scrollPane = new JScrollPane(codeArea);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 80))); // Bordure du JScrollPane
+        return codeArea;
+    }
+
     private static void positionGamePanels(JPanel mainPanel, GamePanel... gamePanels) {
         int x = 10; // Position initiale x
         int y = 10; // Position initiale y
@@ -133,11 +158,25 @@ public class GraphicInterface {
     }
 
     private static JButton createStyledButton(String text) {
-        JButton button = new JButton(text);
-        button.setBackground(new Color(0, 0, 51)); // Fond bleu foncé
-        button.setForeground(new Color(255, 255, 153)); // Texte en jaune clair
-        //  Police Arial Narrow
-        button.setFont(new Font("Arial Narrow", Font.BOLD, 12));
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0, new Color(0, 0, 51), 0, getHeight(), new Color(0, 0, 30));
+                g2.setPaint(gp);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        button.setForeground(new Color(255, 255, 255)); // Texte en jaune clair
+        button.setFont(new Font("Arial Narrow", Font.BOLD, 14)); // Police futuriste
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorder(BorderFactory.createLineBorder(new Color(75, 0, 130), 2));
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(100,40));
         return button;
     }
 
