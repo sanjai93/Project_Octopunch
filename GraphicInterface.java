@@ -11,8 +11,7 @@ public class GraphicInterface {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Exapunks Clone");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 800);
-        frame.setLayout(new BorderLayout());
+        frame.setSize(1600, 1100);
 
         // Ajout des zones de texte pour différents robots
         JTextArea codeArea1 = new JTextArea(20, 40);
@@ -28,28 +27,36 @@ public class GraphicInterface {
         JButton stepButton = createStyledButton("Step");
         JButton stopButton = createStyledButton("Stop");
 
-        // Panneau principal avec BorderLayout
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        buttonPanel.add(runButton);
+        buttonPanel.add(stepButton);
+        buttonPanel.add(stopButton);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Zone de jeu
-        GamePanel gamePanel = new GamePanel();
-        // Définir une taille préférée pour la grille de jeu peut aider à la gestion de l'espace
-        gamePanel.setPreferredSize(new Dimension(500, 500)); // Adaptez selon votre besoin
+        // Panneau principal avec layout personnalisé
+        JPanel mainPanel = new JPanel(null); // Utilisez null layout pour positionnement manuel
+        frame.add(mainPanel, BorderLayout.CENTER);
+
+        // Création et configuration des GamePanel
+        GamePanel gamePanel1 = new GamePanel(60); // Utilisation d'une taille de cellule réduite comme exemple
+        GamePanel gamePanel2 = new GamePanel(60); // Idem
+        GamePanel gamePanel3 = new GamePanel(60); // Idem
+
+        // Configuration des positions de manière à ne pas les empiler
+        positionGamePanels(mainPanel, gamePanel1, gamePanel2, gamePanel3);
+
+        // Ajouter les zones de jeu au panneau principal
+        mainPanel.add(gamePanel1);
+        mainPanel.add(gamePanel2);
+        mainPanel.add(gamePanel3);
 
         // Zone de texte pour les instructions du robot
         JTextArea instructionsArea = new JTextArea(3, 20); // Réduire le nombre de lignes pour diminuer la hauteur
-        JScrollPane instructionsScrollPane = new JScrollPane(instructionsArea);
+        JScrollPane instructionsScrollPane = new JScrollPane(instructionsArea); // Création de JScrollPane pour instructionsArea
         instructionsArea.setLineWrap(true);
         instructionsArea.setWrapStyleWord(true);
 
-        // Ajouter la grille de jeu au centre du panneau principal
-        mainPanel.add(gamePanel, BorderLayout.CENTER);
-
-        // Ajouter la zone de texte en bas du panneau principal
-        mainPanel.add(instructionsScrollPane, BorderLayout.SOUTH);
-
         // Ajouter le panneau principal à la fenêtre
-        frame.add(mainPanel);
+        frame.add(mainPanel, BorderLayout.CENTER);
 
 
         // Création de la barre de menu
@@ -83,24 +90,19 @@ public class GraphicInterface {
             public void actionPerformed(ActionEvent e) {
                 JTextArea currentCodeArea = (JTextArea) ((JScrollPane) robotTabs.getSelectedComponent()).getViewport().getView();
                 executeNextInstruction(currentCodeArea);
-                if (robotTabs.getSelectedIndex() == 0) { // Vérifie si le Robot 1 est sélectionné
-                    gamePanel.setShouldDisplaySpider(true);
-                }
+                // Mettez à jour l'état de `gamePanel1` ou d'autres panels ici au lieu de `game1`
+                gamePanel1.setShouldDisplaySpider(true);
             }
         });
 
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gamePanel.setShouldDisplaySpider(false); // Fait disparaître l'araignée
+                // Utilisez `gamePanel1` ici au lieu de `game1`
+                gamePanel1.setShouldDisplaySpider(false);
             }
         });
 
-
-        buttonPanel.add(runButton);
-        buttonPanel.add(stepButton);
-        buttonPanel.add(stopButton);
-        frame.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.setVisible(true);
     }
@@ -110,6 +112,19 @@ public class GraphicInterface {
         if (currentLine < lines.length) {
             String instruction = lines[currentLine];
             currentLine++;
+        }
+    }
+
+    private static void positionGamePanels(JPanel mainPanel, GamePanel... gamePanels) {
+        int x = 10; // Position initiale x
+        int y = 10; // Position initiale y
+        int offset = 300; // Décalage pour la position suivante
+
+        for (GamePanel gamePanel : gamePanels) {
+            gamePanel.setBounds(x, y, gamePanel.getCellSize() * gamePanel.getGridSize(), gamePanel.getCellSize() * gamePanel.getGridSize());
+            mainPanel.add(gamePanel);
+            x += offset; // Décaler horizontalement pour le prochain panel
+            y += offset;
         }
     }
 
@@ -131,7 +146,19 @@ public class GraphicInterface {
         private int robotRow = 1; // Ligne initiale du robot
         private int robotCol = 1; // Colonne initiale du robot
         private final int gridSize = 5; // Taille de la grille 5x5
-        private final int cellSize = 100; // Taille de chaque cellule de la grille
+        private int cellSize; // Taille de chaque cellule de la grille modifiable
+
+        public GamePanel(int cellSize) {
+            this.cellSize = cellSize;
+        }
+
+        public int getCellSize() {
+            return cellSize;
+        }
+
+        public int getGridSize() {
+            return gridSize;
+        }
 
         public void setShouldDisplaySpider(boolean shouldDisplaySpider) {
             this.shouldDisplaySpider = shouldDisplaySpider;
