@@ -66,14 +66,11 @@ public class Lvl2 {
             //Création du niveau 2
             matLevel11 = new matrice(5, 5);
             matLevel11.defElement(3, 2, "R");
-            matLevel11.defElement(4,4,"P");
 
             matLevel12 = new matrice (5,5);
-            matLevel12.defElement(4,0,"P");
 
             matLevel13 = new matrice (5,5);
-            matLevel13.defElement(1,1,"P");
-
+            
             matLevel14= new matrice(5,5);
             matLevel14.defElement(4,4,"F(9)");
 
@@ -158,10 +155,10 @@ public class Lvl2 {
                         case "LINK":
                             arg = Integer.parseInt(instruction.getArguments().get(0));
 
-                                                                        /* Cas unique s'appliquant seulement pour le niveau 1
+                                                                        /* Cas unique s'appliquant seulement pour le niveau 2
                                                                         par rapport au remplissage de la matrice */
                             if (arg == 100 && matLevel11.parcour("R")) {
-                                matLevel11.defElement(0, 0, "*");
+                                matLevel11.defElement(3, 2, "*");
                                 matLevel12.defElement(4, 1, "R");
                             }
 
