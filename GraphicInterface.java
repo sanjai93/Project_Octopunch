@@ -8,9 +8,9 @@ import java.util.Arrays;
 class GraphicInterface {
     private static int currentLine = 0;
     private static JTabbedPane robotTabs = new JTabbedPane();
-    private static GamePanel gamePanel1; // Déclaration statique
-    private static GamePanel gamePanel2; // Déclaration statique
-    private static GamePanel gamePanel3; // Déclaration statique
+    private static GamePanel gamePanel1;
+    private static GamePanel gamePanel2;
+    private static GamePanel gamePanel3;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Exapunks Clone");
@@ -42,22 +42,22 @@ class GraphicInterface {
         JPanel mainPanel = new JPanel(new BorderLayout()); // BorderLayout pour le panneau principal
 
         // Panneau qui contient les zones de jeu
-        JPanel gamePanelsContainer = new JPanel(new GridLayout(1, 3, 10, 10)); // GridLayout pour aligner les zones de jeu
+        JPanel gamePanelsContainer = new JPanel(new GridLayout(1, 3, 10, 10));
 
-        //  bordure du gamePanelsContainer
-        Border outerBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0); // Marge autour
-        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 5); // Bordure extérieure
+        // Bordure du gamePanelsContainer
+        Border outerBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
+        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 5);
         gamePanelsContainer.setBorder(BorderFactory.createCompoundBorder(lineBorder, outerBorder));
 
         GamePanel gamePanel1 = new GamePanel(40);
         GamePanel gamePanel2 = new GamePanel(40);
-        gamePanel2.setShouldDisplaySpider(false); // Ne pas afficher le robot araignée dans cette grille
+        gamePanel2.setShouldDisplaySpider(false);
         GamePanel gamePanel3 = new GamePanel(40);
-        gamePanel3.setShouldDisplaySpider(false); // Ne pas afficher le robot araignée dans cette grille
+        gamePanel3.setShouldDisplaySpider(false);
         GamePanel activeGamePanel = gamePanel1;
-        gamePanel1.setDoors(new Point(4, 2), null); // Porte vers le gamePanel2 uniquement
-        gamePanel2.setDoors(new Point(0, 2), new Point(4, 2)); // Portes vers gamePanel1 et gamePanel3
-        gamePanel3.setDoors(null, new Point(0, 2)); // Porte vers le gamePanel2 uniquement
+        gamePanel1.setDoors(new Point(4, 2), null);
+        gamePanel2.setDoors(new Point(0, 2), new Point(4, 2));
+        gamePanel3.setDoors(null, new Point(0, 2));
 
 
         // Conteneur
