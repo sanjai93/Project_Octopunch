@@ -39,14 +39,12 @@ class GraphicInterface {
         buttonPanel.add(stopButton);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
-        JPanel mainPanel = new JPanel(new BorderLayout()); // Utilisation d'un BorderLayout pour le panneau principal
+        JPanel mainPanel = new JPanel(new BorderLayout()); // BorderLayout pour le panneau principal
 
-        // Créer le panneau qui contiendra les zones de jeu
-        JPanel gamePanelsContainer = new JPanel(new GridLayout(1, 3, 10, 10)); // GridLayout pour aligner les zones de
-        // jeu
+        // Panneau qui contient les zones de jeu
+        JPanel gamePanelsContainer = new JPanel(new GridLayout(1, 3, 10, 10)); // GridLayout pour aligner les zones de jeu
 
-        // Configuration de la bordure du gamePanelsContainer pour entourer les 3
-        // GamePanel
+        //  bordure du gamePanelsContainer
         Border outerBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0); // Marge autour
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 5); // Bordure extérieure
         gamePanelsContainer.setBorder(BorderFactory.createCompoundBorder(lineBorder, outerBorder));
@@ -62,22 +60,21 @@ class GraphicInterface {
         gamePanel3.setDoors(null, new Point(0, 2)); // Porte vers le gamePanel2 uniquement
 
 
-        // Ajouter les zones de jeu au conteneur
+        // Conteneur
         gamePanelsContainer.add(gamePanel1);
         gamePanelsContainer.add(gamePanel2);
         gamePanelsContainer.add(gamePanel3);
 
-        // Ajouter le conteneur des zones de jeu au panneau principal
+        // Ajout du conteneur au panneau principal
         mainPanel.add(gamePanelsContainer, BorderLayout.CENTER);
 
         // Zone de texte pour les instructions du robot
-        JTextArea instructionsArea = new JTextArea(3, 20); // Réduire le nombre de lignes pour diminuer la hauteur
-        JScrollPane instructionsScrollPane = new JScrollPane(instructionsArea); // Création de JScrollPane pour
-        // instructionsArea
+        JTextArea instructionsArea = new JTextArea(3, 20); //
+        JScrollPane instructionsScrollPane = new JScrollPane(instructionsArea);
         instructionsArea.setLineWrap(true);
         instructionsArea.setWrapStyleWord(true);
 
-        // Ajouter le panneau principal à la fenêtre
+        // Ajout du panneau principal à la fenêtre
         frame.add(mainPanel, BorderLayout.CENTER);
 
         // Création de la barre de menu
@@ -99,19 +96,17 @@ class GraphicInterface {
         difficultyMenu.add(medium);
         difficultyMenu.add(hard);
 
-        // Ajouter les menus à la barre de menu
+        // Ajout des menus à la barre de menu
         menuBar.add(gameMenu);
         menuBar.add(difficultyMenu);
 
-        // Ajouter la barre de menu à la fenêtre
+        // Ajout de la barre de menu à la fenêtre
         frame.setJMenuBar(menuBar);
 
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Récupérer le JPanel sélectionné dans le JTabbedPane
                 JPanel selectedPanel = (JPanel) robotTabs.getSelectedComponent();
-                // Trouver le JScrollPane à l'intérieur du JPanel
                 JScrollPane scrollPane = null;
                 for (Component comp : selectedPanel.getComponents()) {
                     if (comp instanceof JScrollPane) {
@@ -122,12 +117,10 @@ class GraphicInterface {
                 if (scrollPane != null) {
                     JViewport viewport = scrollPane.getViewport();
                     JTextArea currentCodeArea = (JTextArea) viewport.getView();
-                    // Ici, nous utilisons currentCodeArea pour afficher son contenu
+                    // Affichage du contenu de currentCodeArea
                     String codeText = currentCodeArea.getText();
-                    // Découper le texte en lignes
                     String[] lines = codeText.split("\n");
-                    // Afficher chaque ligne avec son numéro dans la console
-                    for (int i = 0; i < lines.length; i++) {
+                    for (int i = 1; i < lines.length; i++) {
                         System.out.println((i + 1) + ": " + lines[i]);
                     }
                 }
@@ -138,9 +131,7 @@ class GraphicInterface {
         stepButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Récupérer le JPanel sélectionné dans le JTabbedPane
                 JPanel selectedPanel = (JPanel) robotTabs.getSelectedComponent();
-                // Trouver le JScrollPane à l'intérieur du JPanel
                 JScrollPane scrollPane = null;
                 for (Component comp : selectedPanel.getComponents()) {
                     if (comp instanceof JScrollPane) {
@@ -151,12 +142,10 @@ class GraphicInterface {
                 if (scrollPane != null) {
                     JViewport viewport = scrollPane.getViewport();
                     JTextArea currentCodeArea = (JTextArea) viewport.getView();
-                    // Ici, nous utilisons currentCodeArea pour afficher son contenu
                     String codeText = currentCodeArea.getText();
-                    // Découper le texte en lignes
                     String[] lines = codeText.split("\n");
                     // Afficher chaque ligne avec son numéro dans la console
-                    for (int i = 0; i < lines.length; i++) {
+                    for (int i = 1; i < lines.length; i++) {
                         System.out.println((i + 1) + ": " + lines[i]);
                     }
                 }
@@ -184,19 +173,18 @@ class GraphicInterface {
         codeArea.setText("Insérer vos instructions ici... ");
         JScrollPane codeScrollPane = new JScrollPane(codeArea);
         controlPanel.add(codeScrollPane, BorderLayout.CENTER);
-        // Appliquer le style du codeArea similaire à createRobotCodeArea
         if (Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()).contains("Orbitron")) {
             codeArea.setFont(new Font("Orbitron", Font.BOLD, 12)); // Utiliser Orbitron si disponible
         } else {
             codeArea.setFont(new Font("Monospaced", Font.BOLD, 12)); // Sinon, utiliser Monospaced
         }
-        codeArea.setForeground(new Color(255, 0, 0)); // Couleur du texte rouge lumineux
-        codeArea.setBackground(new Color(0, 0, 0)); // Arrière-plan noir
-        codeArea.setCaretColor(Color.WHITE); // Couleur du curseur en blanc
+        codeArea.setForeground(new Color(255, 0, 0));
+        codeArea.setBackground(new Color(0, 0, 0));
+        codeArea.setCaretColor(Color.WHITE);
         codeArea.setBorder(BorderFactory.createCompoundBorder(
                 codeArea.getBorder(),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5))); // Ajouter un peu d'espace autour du texte
-        codeScrollPane.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 80))); // Bordure grise foncée pour le JScrollPane
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        codeScrollPane.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 80)));
         controlPanel.add(codeScrollPane, BorderLayout.CENTER);
 
 
@@ -235,7 +223,7 @@ class GraphicInterface {
 
         return controlPanel;
     }
-    private static GamePanel activeGamePanel = gamePanel1; // Commencer avec le robot dans le premier GamePanel
+    private static GamePanel activeGamePanel = gamePanel1;
 
     private static void setActiveGamePanel(String panelName) {
         switch (panelName) {
@@ -252,7 +240,7 @@ class GraphicInterface {
                 System.out.println("Nom de panneau invalide.");
                 break;
         }
-        // Assurez-vous que le robot est visible seulement dans la grille active
+
         gamePanel1.setShouldDisplaySpider(activeGamePanel == gamePanel1);
         gamePanel2.setShouldDisplaySpider(activeGamePanel == gamePanel2);
         gamePanel3.setShouldDisplaySpider(activeGamePanel == gamePanel3);
@@ -289,8 +277,8 @@ class GraphicInterface {
                 super.paintComponent(g);
             }
         };
-        button.setForeground(new Color(255, 255, 255)); // Texte en jaune clair
-        button.setFont(new Font("Arial Narrow", Font.BOLD, 14)); // Police futuriste
+        button.setForeground(new Color(255, 255, 255));
+        button.setFont(new Font("Arial Narrow", Font.BOLD, 14));
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setBorder(BorderFactory.createLineBorder(new Color(75, 0, 130), 2));
@@ -301,10 +289,10 @@ class GraphicInterface {
 
     static class GamePanel extends JPanel {
         private boolean shouldDisplaySpider = true;
-        private int robotRow = 1; // Ligne initiale du robot
-        private int robotCol = 1; // Colonne initiale du robot
+        private int robotRow = 1;
+        private int robotCol = 1;
         private final int gridSize = 5; // Taille de la grille 5x5
-        private int cellSize; // Taille de chaque cellule de la grille modifiable
+        private int cellSize;
         private Point doorToNext;
         private Point doorToPrevious;
 
@@ -352,7 +340,6 @@ class GraphicInterface {
             int startX = (getWidth() - totalGridWidth) / 2;
             int startY = (getHeight() - totalGridHeight) / 2;
 
-            // Dessiner la grille avec des cases noires et des bordures vertes
             for (int i = 0; i < gridSize; i++) {
                 for (int j = 0; j < gridSize; j++) {
                     g.setColor(Color.BLACK);
@@ -363,39 +350,37 @@ class GraphicInterface {
             }
 
             if (shouldDisplaySpider) {
-                int centerX = startX + robotCol * cellSize + cellSize / 2; // Centre du robot dans la cellule
+                int centerX = startX + robotCol * cellSize + cellSize / 2;
                 int centerY = startY + robotRow * cellSize + cellSize / 2;
-                int bodyRadius = cellSize / 4; // Rayon du corps de l'araignée robot
+                int bodyRadius = cellSize / 4;
 
                 // Corps de l'araignée robot
-                g.setColor(Color.WHITE); // Un gris métallique foncé
+                g.setColor(Color.WHITE);
                 g.fillOval(centerX - bodyRadius, centerY - bodyRadius, 2 * bodyRadius, 2 * bodyRadius);
 
                 // Yeux de l'araignée robot
                 g.setColor(Color.RED); // Utilisation de LED rouges pour les yeux
                 int eyeRadius = bodyRadius / 4;
-                int eyesCount = 8; // Une araignée a typiquement 8 yeux
+                int eyesCount = 8;
                 for (int i = 0; i < eyesCount / 2; i++) {
-                    // Disposer les yeux autour du corps
+
                     double angle = Math.PI / (eyesCount / 2 - 1) * i;
                     int eyeX = centerX + (int) (bodyRadius * Math.cos(angle)) - eyeRadius / 2;
                     int eyeY = centerY - (int) (bodyRadius * Math.sin(angle)) - eyeRadius / 2;
                     g.fillOval(eyeX, eyeY, eyeRadius, eyeRadius);
-                    g.fillOval(centerX - (eyeX - centerX) - eyeRadius, eyeY, eyeRadius, eyeRadius); // Miroir pour les
-                    // yeux de l'autre
-                    // côté
+                    g.fillOval(centerX - (eyeX - centerX) - eyeRadius, eyeY, eyeRadius, eyeRadius);
+
                 }
 
                 // Pattes de l'araignée robot
-                g.setColor(new Color(80, 80, 80)); // Une teinte légèrement différente pour les pattes
+                g.setColor(new Color(80, 80, 80));
                 int legLength = cellSize / 2;
-                for (int i = 0; i < 4; i++) { // 4 paires de pattes
+                for (int i = 0; i < 4; i++) {
                     double angle = Math.PI / 4 * i;
                     int legEndX = centerX + (int) (legLength * Math.cos(angle));
                     int legEndY = centerY - (int) (legLength * Math.sin(angle));
-                    g.drawLine(centerX, centerY, legEndX, legEndY); // Pattes partant du centre du corps
-                    g.drawLine(centerX, centerY, centerX - (legEndX - centerX), legEndY); // Pattes miroir de l'autre
-                    // côté
+                    g.drawLine(centerX, centerY, legEndX, legEndY);
+                    g.drawLine(centerX, centerY, centerX - (legEndX - centerX), legEndY);
                 }
             }
 
