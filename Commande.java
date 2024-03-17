@@ -62,7 +62,7 @@ public class Commande{
                     ret.SetLegal(true);
                     return ret;
                               
-                case "ADDI" : case "MULI" : case "SUBI" :
+                case "ADDI" : case "MULI" : case "SUBI" : case "DIVI" :case "MODI" :case "SWIZ" : case "TEST" :
                     aux.add(instru[1]);
                     aux.add(instru[2]);
                     aux.add(instru[3]);
@@ -70,7 +70,7 @@ public class Commande{
                     ret.SetLegal(true);
                     return ret;
 
-                case "HALT" :
+                case "HALT" : case "NOOP" : 
 
                     ret=new Commande(instru[0], Collections.emptyList());
                     ret.SetLegal(true);
@@ -82,6 +82,13 @@ public class Commande{
                     ret = new Commande(instru[0],aux);
                     ret.SetLegal(true);
                     return ret;
+                
+                case "MARK" :
+                    aux.add(instru[1]);
+                    ret = new Commande(instru[0],aux);
+                    ret.SetLegal(true);
+                    return ret;
+
             }
         }
         
