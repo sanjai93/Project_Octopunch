@@ -109,6 +109,7 @@ public class Lvl1 {
             cycle=0;
             int Mlabel;
             boolean MARK=false;
+            int posMark=0;
 
             System.out.println("Ca commence !\n");
 
@@ -140,18 +141,22 @@ public class Lvl1 {
                 listeInstruction.add(commande);
                 MARK=false;
                 Mlabel=0;
+                int pos=0;
                 if (commande.getName().equals("HALT")) {//Si jamais on tombe sur HALT vérifions si tout le monde est OK
                     for (Commande e : listeInstruction) {
+                        pos++;
                     
                         if (!e.getLegal()) {
-                           
-                            System.out.println("L'une des lignes rentrée est incorrect \n");
+                            
                             listeInstruction.removeAll(listeInstruction);// On efface tout, pour l'instant.
                             break;
                         }
-                        else{
+                        if(e.getName().equals("MARK")){
+
                             Mlabel= Integer.parseInt(e.getArguments().get(0));
                             MARK=true;
+                            posMark= pos;
+                        
                         }
                         
                     }
@@ -242,13 +247,13 @@ public class Lvl1 {
                             int nombreInstructionsASauter = Integer.parseInt(instruction.getArguments().get(0));
 
                             if(MARK && nombreInstructionsASauter==Mlabel){ //Il y a un MARK dans les instructions
-                                System.out.println("poppop\n");
-                                while (position<Mlabel){
+                            
+                                while (position<= posMark){
 
                                     iterator.next();
                                     position++;
                                 }
-                                while (position>Mlabel) {
+                                while (position>= posMark) {
                                     iterator.previous();
                                     position--;
                                 }
@@ -268,12 +273,12 @@ public class Lvl1 {
                             if (cond == 0) {
                                 int nombreInstructionsASauter_BIS = Integer.parseInt(instruction.getArguments().get(0));
                                 if(MARK && nombreInstructionsASauter_BIS==Mlabel){ //Il y a un MARK dans les instructions
-                                    System.out.println("poppop\n");
-                                    while (position<Mlabel){
+                                
+                                    while (position<=posMark){
                                         iterator.next();
                                         position++;
                                     }
-                                    while (position>Mlabel) {
+                                    while (position>=posMark) {
                                         iterator.previous();
                                         position--;
                                     }

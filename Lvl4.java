@@ -84,6 +84,9 @@ public class Lvl4 {
 
             TRC1=0;
             cycle=0;
+            int Mlabel;
+            boolean MARK=false;
+            int posMark=0;
            
 
             System.out.println("Ca commence !\n");
@@ -116,16 +119,26 @@ public class Lvl4 {
 
                 commande = Commande.create();
                 listeInstruction.add(commande);
-
+                MARK=false;
+                Mlabel=0;
+                int pos=0;
                 if (commande.getName().equals("HALT")) {//Si jamais on tombe sur HALT vérifions si tout le monde est OK
                     for (Commande e : listeInstruction) {
+                        pos++;
+                    
                         if (!e.getLegal()) {
-                            System.out.println("L'une des lignes rentrée est incorrect \n");
+                            
                             listeInstruction.removeAll(listeInstruction);// On efface tout, pour l'instant.
-
                             break;
-
                         }
+                        if(e.getName().equals("MARK")){
+
+                            Mlabel= Integer.parseInt(e.getArguments().get(0));
+                            MARK=true;
+                            posMark= pos;
+                        
+                        }
+                        
                     }
                 }
 
@@ -209,32 +222,56 @@ public class Lvl4 {
                             break;
     
 
-                        case "JUMP":
+                            case "JUMP":
                             int nombreInstructionsASauter = Integer.parseInt(instruction.getArguments().get(0));
-                            for (i = 0; i < nombreInstructionsASauter && position < listeInstruction.size() - 2 && iterator.hasNext(); i++) {
-                                iterator.next(); // Passez à l'instruction suivante
-                                position++;
+
+                            if(MARK && nombreInstructionsASauter==Mlabel){ //Il y a un MARK dans les instructions
+                            
+                                while (position<= posMark){
+
+                                    iterator.next();
+                                    position++;
+                                }
+                                while (position>= posMark) {
+                                    iterator.previous();
+                                    position--;
+                                }
+                            }
+                            else{
+                                for (i = 0; i < nombreInstructionsASauter && position < listeInstruction.size() - 2 && iterator.hasNext(); i++) {
+                                    iterator.next(); // Passez à l'instruction suivante
+                                    position++;
+                                }
+                                
                             }
                             // Sort de la boucle si nous avons atteint la fin de la liste
                             break;
-
                         case "FJMP":
                             int cond = register.getRegister("T").getValue();
 
                             if (cond == 0) {
                                 int nombreInstructionsASauter_BIS = Integer.parseInt(instruction.getArguments().get(0));
-
-                                for (i = 0; i < nombreInstructionsASauter_BIS && position < listeInstruction.size() - 2; i++) {
-                                    if (iterator.hasNext()) {
-                                        iterator.next(); // Passez à l'instruction suivante
+                                if(MARK && nombreInstructionsASauter_BIS==Mlabel){ //Il y a un MARK dans les instructions
+                                
+                                    while (position<=posMark){
+                                        iterator.next();
                                         position++;
-                                    } else {
-                                        break; // Sort de la boucle si nous avons atteint la fin de la liste
+                                    }
+                                    while (position>=posMark) {
+                                        iterator.previous();
+                                        position--;
+                                    }
+                                }
+                                
+                                else{
+                                    for (i = 0; i < nombreInstructionsASauter_BIS && position < listeInstruction.size() - 2; i++) {
+                                        if (iterator.hasNext()) {
+                                            iterator.next(); // Passez à l'instruction suivante
+                                            position++;
+                                        }
                                     }
                                 }
                             }
-
-                            break;
 
 
                         case "HALT" :

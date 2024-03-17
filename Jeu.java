@@ -68,7 +68,7 @@ public class Jeu{
                 DIVI divi=new DIVI();
 
 
-                Lvl1 level1;
+
 
 
                 int arg;
@@ -78,7 +78,7 @@ public class Jeu{
 
                 while(!quit1){
                         System.out.println();
-                        System.out.println("Choose game Level or quit with q \n Level 1\n Level 2\n Level 3\n");
+                        System.out.println("Choose game Level or quit with q \n Level 1\n Level 2\n Level 3\n Level 4\n");
                         level = scanner.nextLine();
                         
                         // choix du niveau //
@@ -87,44 +87,27 @@ public class Jeu{
                                 case "1":
                                         new Lvl1();
                                                
-                                        break;
-                                                
-                                        
-                                                
+                                break;
 
                                 case "2":
-                                System.out.println("Ca commence !");
-                                do {
-                                        matLevel21.afficher();
-                                        System.out.println("\nLink 600");
-                                        matLevel22.afficher();
-                                        System.out.println("\nLink 100");
-                                        matLevel23.afficher();
-                                        System.out.println("\nx=0 f=0 t=0");
                         
-                                        /* A completer */
-                                        victoire = true;    
-                                } while (!victoire);
+                            
+                                        new Lvl2();   
+                             
                                 break;
 
                                 case "3":
-                                System.out.println("Ca commence !");
-                                do {
-                                        matLevel31.afficher();
-                                        System.out.println("\nLink 400");
-                                        matLevel32.afficher();
-                                        System.out.println("\nLink 200");
-                                        matLevel33.afficher();
-                                        System.out.println("\nx=0 f=0 t=0");
-
-                                        /* A completer */
-                                        victoire = true;
-                                } while (!victoire);
+                                        new Lvl3();
                                 break;
+
+                                case "4":
+                                        new Lvl4();
+                                break;
+
                                 case "q":
                                         quit1=true;
                                         break;
-                                default : System.out.println("Choose Level 1 to 3 !!!");
+                                default : System.out.println("Choose Level 1 to 4 !!!");
 
                         }      
                 }
