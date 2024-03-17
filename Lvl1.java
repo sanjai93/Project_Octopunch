@@ -18,7 +18,30 @@ public class Lvl1 {
 
         matrice matLevel13;
 
-     
+        // Matrices pour le niveau 2 //
+        matrice matLevel21 = new matrice(5, 5);
+        matLevel21.defElement(0, 0, "R");
+        matLevel21.defElement(0, 4, "P");
+
+        matrice matLevel22 = new matrice(5, 5);
+        matLevel22.defElement(4, 2, "P");
+
+        matrice matLevel23 = new matrice(5, 5);
+        ;
+        matLevel23.defElement(4, 4, "F");
+
+
+        // Matrices pour le niveau 3 //
+        matrice matLevel31 = new matrice(5, 5);
+        matLevel31.defElement(0, 0, "R");
+        matLevel31.defElement(1, 4, "P");
+
+        matrice matLevel32 = new matrice(5, 5);
+        matLevel32.defElement(1, 0, "P");
+        ;
+        matLevel32.defElement(4, 4, "F");
+
+
 
         @SuppressWarnings("resource")
         Scanner NextInstru = new Scanner(System.in); //Scanne la touche entré à chaque parcours de la liste d'instruction
@@ -84,7 +107,8 @@ public class Lvl1 {
 
             TRC1=0;
             cycle=0;
-           
+            int Mlabel;
+            boolean MARK=false;
 
             System.out.println("Ca commence !\n");
 
@@ -114,16 +138,22 @@ public class Lvl1 {
 
                 commande = Commande.create();
                 listeInstruction.add(commande);
-
+                MARK=false;
+                Mlabel=0;
                 if (commande.getName().equals("HALT")) {//Si jamais on tombe sur HALT vérifions si tout le monde est OK
                     for (Commande e : listeInstruction) {
+                    
                         if (!e.getLegal()) {
+                           
                             System.out.println("L'une des lignes rentrée est incorrect \n");
                             listeInstruction.removeAll(listeInstruction);// On efface tout, pour l'instant.
-
                             break;
-
                         }
+                        else{
+                            Mlabel= Integer.parseInt(e.getArguments().get(0));
+                            MARK=true;
+                        }
+                        
                     }
                 }
 
@@ -177,7 +207,7 @@ public class Lvl1 {
                             }
 
                             break;
-
+                        
                         case "ADDI":
                             addi.ADDI(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)), register);
                             break;
@@ -202,38 +232,67 @@ public class Lvl1 {
                             swiz.SWIZ(instruction.getArguments().get(0), instruction.getArguments().get(1), register.getRegister(instruction.getArguments().get(2)), register);
                             break;
 
-                            case "TEST":
+                        case "TEST":
 
-                            test.TEST(instruction.getArguments().get(0), instruction.getArguments().get(1), instruction.getArguments().get(2), register);
-                            break;
+                        test.TEST(instruction.getArguments().get(0), instruction.getArguments().get(1), instruction.getArguments().get(2), register);
+                        break;
     
 
                         case "JUMP":
                             int nombreInstructionsASauter = Integer.parseInt(instruction.getArguments().get(0));
-                            for (i = 0; i < nombreInstructionsASauter && position < listeInstruction.size() - 2 && iterator.hasNext(); i++) {
-                                iterator.next(); // Passez à l'instruction suivante
-                                position++;
+
+                            if(MARK && nombreInstructionsASauter==Mlabel){ //Il y a un MARK dans les instructions
+                                System.out.println("poppop\n");
+                                while (position<Mlabel){
+
+                                    iterator.next();
+                                    position++;
+                                }
+                                while (position>Mlabel) {
+                                    iterator.previous();
+                                    position--;
+                                }
+                            }
+                            else{
+                                for (i = 0; i < nombreInstructionsASauter && position < listeInstruction.size() - 2 && iterator.hasNext(); i++) {
+                                    iterator.next(); // Passez à l'instruction suivante
+                                    position++;
+                                }
+                                
                             }
                             // Sort de la boucle si nous avons atteint la fin de la liste
                             break;
-
                         case "FJMP":
                             int cond = register.getRegister("T").getValue();
 
                             if (cond == 0) {
                                 int nombreInstructionsASauter_BIS = Integer.parseInt(instruction.getArguments().get(0));
-
-                                for (i = 0; i < nombreInstructionsASauter_BIS && position < listeInstruction.size() - 2; i++) {
-                                    if (iterator.hasNext()) {
-                                        iterator.next(); // Passez à l'instruction suivante
+                                if(MARK && nombreInstructionsASauter_BIS==Mlabel){ //Il y a un MARK dans les instructions
+                                    System.out.println("poppop\n");
+                                    while (position<Mlabel){
+                                        iterator.next();
                                         position++;
-                                    } else {
-                                        break; // Sort de la boucle si nous avons atteint la fin de la liste
+                                    }
+                                    while (position>Mlabel) {
+                                        iterator.previous();
+                                        position--;
+                                    }
+                                }
+                                
+                                else{
+                                    for (i = 0; i < nombreInstructionsASauter_BIS && position < listeInstruction.size() - 2; i++) {
+                                        if (iterator.hasNext()) {
+                                            iterator.next(); // Passez à l'instruction suivante
+                                            position++;
+                                        }
                                     }
                                 }
                             }
 
                             break;
+                        case "MARK":
+                            break;
+
 
 
                         case "HALT" :
@@ -287,11 +346,10 @@ public class Lvl1 {
                         System.out.println("Entrée : Instruction suivante || q : quitter ");
                         NextInstruc=NextInstru.nextLine();
                         if (NextInstruc.equals("Q") || NextInstruc.equals("q")) {
-                 
+                            System.out.println("break!\n");
                             break;
 
                         }
-                   
 
 
                     }
