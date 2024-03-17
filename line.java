@@ -17,7 +17,7 @@ public class line{
         }
        
         PrimarRegister listRegiste = new PrimarRegister();
-        instru = instru.trim();//Peu importe comment tu le rentres, il ne contera pas les espaces, juste les chara
+        instru = instru.trim();//Peu importe comment tu le rentres, il ne comtera pas les espaces, juste les chara
         instru = instru.toUpperCase(); //Peu importe comment tu le rentres, il le met en MAJ
         this.instruction = instru;
         this.legal = false;
@@ -29,9 +29,9 @@ public class line{
             this.legal = true;
         }
         
-        //Verifiaction des commandes à 1 argument ( JUMP ou GRAB)
-        if (argum[0].equals("LINK") || argum[0].equals("GRAB") ) {
-            if (argum.length == 2) {//On vérifie que LINK à bien 2 arguments(lui et sont entier )
+        //Verifiaction des commandes à 1 argument ( JUMP ou GRAB,etc)
+        if (argum[0].equals("LINK") || argum[0].equals("GRAB") || argum[0].equals("MARK") ) {
+            if (argum.length == 2) {//On vérifie qu'il y à bien 2 arguments(lui et son entier)
                 this.legal = true;
                 if (argum[1].charAt(0) == '-') {
 
@@ -58,7 +58,7 @@ public class line{
         }
 
 
-        if (argum[0].equals("JUMP")) {
+        if (argum[0].equals("JUMP") || argum[0].equals("FJMP")) {
             if (argum.length == 2) {//On vérifie que JUMP ou FJMP à bien 2 arguments(lui et sont entier )
                 this.legal = true;
 
@@ -84,74 +84,11 @@ public class line{
 
                 }
             }
-           /**  If (this.legal) {
-                int taille = robot.lastIndex() + Integer.parseInt (argum[1]) ; // Jump et FJMP ce déplace entre les lignes. Il faut vérifier que le déplacement est possible
-                //Donc position initiale + entier duquel tu veux te déplacer=taille
-                if (taille < 0) {
-                    this.legal = false ;
-                } else if (taille > robot.getRobotBOX().size()-1) {
-
-
-                    this.legal = false ;
-                }
-                else {
-                }
-            }
-            */
-
-
         }
 
 
 
 
-
-        if (argum[0].equals("FJMP")) {
-            if (argum.length == 2) {//On vérifie que JUMP ou FJMP à bien 2 arguments(lui et sont entier )
-
-            
-                    this.legal = true;
-                    //cas négatif
-                    if (argum[1].charAt(0) == '-') {
-                        if (!(argum[1].length() > 1) ){
-                            this.legal=false;
-                        }
-                        else {
-                            for (i = 1; i < argum[1].length(); i++) {//Verifie si 2e element (l'entier toujours sous forme de String) en est bien unif (Character.isDigit(argum[1].charAt(1).)
-                                if (!Character.isDigit(argum[1].charAt(i))) {//Passe au vérificateur chaque String qui le compose
-                                    this.legal = false;
-                                }
-                            }
-                        }
-                    } else {//cas positif
-                        for (i = 0; i < argum[1].length(); i++) {//Verifie si 2e element (l'entier toujours sous forme de String) en est bien unif (Character.isDigit(argum[1].charAt(1).)
-                            if (!Character.isDigit(argum[1].charAt(i))) {//Passe au vérificateur chaque String qui le compose
-                                this.legal = false;
-                            }
-                        }
-
-                    }
-                    /**if (this.legal) {
-                        int taille = robot.lastIndex() + Integer.parseInt (argum[1]); // Jump et FJMP se déplace entre les lignes. Il faut vérifier que le déplacement est possible
-                        //Donc position initiale + entier duquel tu veux te déplacer=taille
-                        if (taille < 0) {
-                            this.legal = false;
-
-                        }
-                        else if (taille > robot.getRobotBOX().size() - 1) {
-                            this.legal = false;
-
-                        }
-                        else {
-                        }
-                    }
-                     */
-        
-              
-
-            }
-             
-        }
 
 
 
@@ -245,7 +182,7 @@ public class line{
     
 
         if (argum[0].equals("TEST") ) {
-            if (argum.length == 4) { //ADDI,MULI et SUBI ont  bien 3 arguments+ eux meme
+            if (argum.length == 4) { 
 
                 this.legal = true;
                 for (i = 1; i < 4; i=i+2) {// Vérifie les argument de test
