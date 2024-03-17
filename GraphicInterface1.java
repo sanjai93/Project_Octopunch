@@ -174,10 +174,6 @@ class GraphicInterface1 {
                             Mlabel= Integer.parseInt(stp[1]);
                             MARK=true;
                             posMark= pos;
-
-                            System.out.println(posMark );
-                            System.out.println( Mlabel);
-                            System.out.println(MARK);
                         }
 
                     }
@@ -209,7 +205,7 @@ class GraphicInterface1 {
                         switch (nomInstruction[0]) {
                             // Traitement des commandes //
                             case "LINK":
-                                System.out.println("oee...");
+                        
                                 arg = Integer.parseInt(nomInstruction[1]);
                                 System.out.println(arg);
                                 if (arg == 500 && mat1){
@@ -227,21 +223,7 @@ class GraphicInterface1 {
                                 
                                 }
                                 
-
-
-                                                                        /* Cas unique s'appliquant seulement pour le niveau 1
-                                                                        par rapport au remplissage de la matrice */
-                            /*if (arg == 500 && matLevel11.parcour("R")) {
-                                matLevel11.defElement(0, 0, "*");
-                                matLevel12.defElement(4, 1, "R");
-                            }
-
-                            if (arg == 400 && matLevel12.parcour("R")) {
-                                matLevel12.defElement(4, 1, "*");
-                                matLevel13.defElement(1, 2, "R");
-                            }
-                            break;*/
-
+                                break;
 
                             case "GRAB" :
                                 arg = Integer.parseInt(nomInstruction[1]);
@@ -285,28 +267,41 @@ class GraphicInterface1 {
 
 
                             case "JUMP":
-                            int nombreInstructionsASauter = Integer.parseInt(nomInstruction[0]);
+                            int nombreInstructionsASauter = Integer.parseInt(nomInstruction[1]);
 
+                            if(MARK && nombreInstructionsASauter==Mlabel){ //Il y a un MARK dans les instructions
+                            
+                                while (position<= posMark){
+
+                                    iterator.next();
+                                    position++;
+                                }
+                                while (position>= posMark) {
+                                    iterator.previous();
+                                    position--;
+                                }
+                            }
+                            else{
                                 for (int i = 0; i < nombreInstructionsASauter && position < convert.size() - 2 && iterator.hasNext(); i++) {
                                     iterator.next(); // Passez à l'instruction suivante
                                     position++;
                                 }
                                 
-                            
+                            }
                             // Sort de la boucle si nous avons atteint la fin de la liste
                             break;
-                            case "FJMP":
-                                int cond = register.getRegister("T").getValue();
+                        case "FJMP":
+                            int cond = register.getRegister("T").getValue();
 
                             if (cond == 0) {
-                                int nombreInstructionsASauter_BIS = Integer.parseInt(nomInstruction[0]);
+                                int nombreInstructionsASauter_BIS = Integer.parseInt(nomInstruction[1]);
                                 if(MARK && nombreInstructionsASauter_BIS==Mlabel){ //Il y a un MARK dans les instructions
-                                    System.out.println("poppop\n");
-                                    while (position<Mlabel){
+                                
+                                    while (position<=posMark){
                                         iterator.next();
                                         position++;
                                     }
-                                    while (position>Mlabel) {
+                                    while (position>=posMark) {
                                         iterator.previous();
                                         position--;
                                     }
@@ -321,6 +316,8 @@ class GraphicInterface1 {
                                     }
                                 }
                             }
+
+                            break;
 
                             case "MARK":
                                 break;
@@ -366,55 +363,42 @@ class GraphicInterface1 {
 
 
     private static JPanel createRobotControlPanel() {
-        // Panel principal pour la zone de texte et les champs
+        // Panel principal pour le panneau de contrôle
         JPanel controlPanel = new JPanel(new BorderLayout());
-
-        // Création de la zone de texte pour le code
-        JTextArea codeArea = new JTextArea();
-        codeArea.setText("Votre code ici...");
-        JScrollPane codeScrollPane = new JScrollPane(codeArea);
-        controlPanel.add(codeScrollPane, BorderLayout.CENTER);
-
-        // Panel pour les champs X, T, F, et M
-        JPanel fieldsPanel = new JPanel(new FlowLayout());
-
-        // Valeurs entières initiales pour les champs
-        int initialValueX = 0;
-        int initialValueT = 0;
-        int initialValueF = 0;
-        int initialValueM = 0;
-
-// Création et ajout des champs avec des valeurs entières converties en String
+    
+        // Panel pour les étiquettes et les champs de texte
+        JPanel fieldsPanel = new JPanel(new GridLayout(2, 4, 5, 5)); // GridLayout pour aligner les composants
+    
+        // Création des étiquettes pour X, T, F et M
+        JLabel labelX = new JLabel("X:");
+        JLabel labelT = new JLabel("T:");
+        JLabel labelF = new JLabel("F:");
+        JLabel labelM = new JLabel("M:");
+    
+        // Récupération des valeurs initiales depuis register
+        int initialValueX = register.getRegister("X").getValue();
+        int initialValueT = register.getRegister("T").getValue();
+    
+        // Création des champs de texte avec les valeurs initiales
         JTextField fieldX = new JTextField(String.valueOf(initialValueX), 5);
-        fieldX.setEditable(false); // Rend le champ non modifiable
         JTextField fieldT = new JTextField(String.valueOf(initialValueT), 5);
-        fieldT.setEditable(false); // Rend le champ non modifiable
-        JTextField fieldF = new JTextField(String.valueOf(initialValueF), 5);
-        fieldF.setEditable(false); // Rend le champ non modifiable
-        JTextField fieldM = new JTextField(String.valueOf(initialValueM), 5);
-        fieldM.setEditable(false); // Rend le champ non modifiable
-
-        int valueX;
-        try {
-            valueX = Integer.parseInt(fieldX.getText());
-        } catch (NumberFormatException e) {
-            // Gestion de l'erreur si la chaîne ne peut pas être convertie en entier
-            valueX = 0; // Ou toute autre valeur par défaut/logique de gestion d'erreur
-        }
-
-        // Ajout des champs au panel de champs
-        fieldsPanel.add(new JLabel("X:"));
+        JTextField fieldF = new JTextField("0", 5); // La valeur de F est initialement 0
+        JTextField fieldM = new JTextField("0", 5); // La valeur de M est initialement 0
+    
+        // Ajout des étiquettes et des champs de texte au panel de champs
+        fieldsPanel.add(labelX);
         fieldsPanel.add(fieldX);
-        fieldsPanel.add(new JLabel("T:"));
+        fieldsPanel.add(labelT);
         fieldsPanel.add(fieldT);
-        fieldsPanel.add(new JLabel("F:"));
+        fieldsPanel.add(labelF);
         fieldsPanel.add(fieldF);
-        fieldsPanel.add(new JLabel("M:"));
+        fieldsPanel.add(labelM);
         fieldsPanel.add(fieldM);
-
+    
         // Ajout du panel de champs au panel principal
-        controlPanel.add(fieldsPanel, BorderLayout.SOUTH);
-
+        controlPanel.add(fieldsPanel, BorderLayout.CENTER);
+    
+        // Retourne le panel principal
         return controlPanel;
     }
     private static GamePanel activeGamePanel = gamePanel1; // Commencer avec le robot dans le premier GamePanel
