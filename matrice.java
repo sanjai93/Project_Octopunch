@@ -68,4 +68,5 @@ public class matrice {
         mat.afficher();
         
     }
+
 }
