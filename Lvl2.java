@@ -168,7 +168,7 @@ public class Lvl2 {
                             }
 
                             if (arg == 666 && matLevel13.parcour("R")) {
-                                matLevel13.defElement(4, 1, "*");
+                                matLevel13.defElement(1, 2, "*");
                                 matLevel14.defElement(1, 2, "R");
                             }
                             
