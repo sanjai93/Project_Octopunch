@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrimarRegister {
-     private List<register> listeRegister;
+     private List<Register> listeRegister;
      
     /**
      * PrimarRegister est une classe qui a uniquement pour but de regrouper les registres "Primaire"
@@ -11,14 +11,14 @@ public class PrimarRegister {
      * 
      */
     public PrimarRegister() {
-        this.listeRegister = new ArrayList<register>();
+        this.listeRegister = new ArrayList<Register>();
         // Initialiser la liste avec des valeurs préremplies
-        listeRegister.add(new register("X"));
-        listeRegister.add(new register("T"));
-        listeRegister.add(new register("F"));
-        listeRegister.add(new register("M"));
+        listeRegister.add(new Register("X"));
+        listeRegister.add(new Register("T"));
+        listeRegister.add(new Register("F"));
+        listeRegister.add(new Register("M"));
 
-        for(register reg : listeRegister){
+        for(Register reg : listeRegister){
             reg.Set(0);//Au debut de chaque partie, les valeurs sont à 0, donc je les initiallise
         }
     }
@@ -28,13 +28,13 @@ public class PrimarRegister {
      * 
      * @return la liste de registe "Primaire"
      */
-    public List<register> getListeRegisters() {
+    public List<Register> getListeRegisters() {
         return this.listeRegister;
     }
 
-    public register getRegister(String A){
+    public Register getRegister(String A){
         if(this.contains(A)){
-            for(register my : listeRegister){
+            for(Register my : listeRegister){
                 if (my.getLetter().equals(A)){
                     return my;
                 }
@@ -56,7 +56,7 @@ public class PrimarRegister {
         if(reg==null){
             throw new NullPointerException("contains : Argument du String nul");
         }
-        for(register my : listeRegister){
+        for(Register my : listeRegister){
             if(my.getLetter().equals(reg)){
                 return true;
             }
